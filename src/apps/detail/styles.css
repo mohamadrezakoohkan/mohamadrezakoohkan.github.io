@@ -1,0 +1,33 @@
+#photos-list {
+    padding: 0;
+}
+#photos-list li {
+    color: #000;
+    border-radius: 500px;
+    margin-bottom: 60px;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0);
+    transition: 0.3s;
+}
+
+#photos-list li:hover {
+    -webkit-transform: scale(1.05);
+    box-shadow: 0px 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.photo {
+    border-radius: 16px;
+}
+
+@media only screen and (max-width: 900px) {
+    #photos-list li {
+        color: #fff;
+        border-radius: 8px;
+        margin-top: 30px;
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: 0px;
+    }
+    .photo {
+        border-radius: 8px;
+    }
+}

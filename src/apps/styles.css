@@ -1,0 +1,120 @@
+img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.btn {
+    background-color: #ffffff47;
+    border: 0px;
+    color: #ffffff;
+    padding: 0.5rem;
+    margin-top: 16px;
+    font-size: 17px;
+}
+
+.btn--block {
+    transition: 0.3s;
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    outline: none;
+}
+
+.btn--block:hover {
+    background-color: #ffffff;
+    color: black;
+    cursor: pointer;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.card {
+    display: flex;
+    padding: 1rem;
+}
+@media (min-width: 40rem) {
+    .card {
+        width: 50%;
+    }
+}
+@media (min-width: 56rem) {
+    .card {
+        width: 33.3333%;
+    }
+}
+
+.card-body {
+    transition: 0.3s;
+    background-color: #343434;
+    border-radius: 8px;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card-body:hover {
+    -webkit-transform: scale(1.005);
+    background-color: #434343;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.6);
+}
+
+.card-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.card-title {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.card-text {
+    flex: 1 1 auto;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    color: white;
+}
+
+/* .card-image--calculator {
+    background-image: url(portfolio/calculator/index.png);
+} */
+
+.card-image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    filter: contrast(80%);
+    overflow: hidden;
+    position: relative;
+    transition: filter 0.5s cubic-bezier(0.43, 0.41, 0.22, 0.91);
+}
+
+.card-image::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%;
+}
+
+.card-image:hover {
+    filter: contrast(100%);
+}
+
+@media (min-width: 40rem) {
+    .card-image::before {
+        padding-top: 66.6%;
+    }
+}
