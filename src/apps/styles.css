@@ -2,6 +2,7 @@ img {
     height: auto;
     max-width: 100%;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 .btn {
@@ -86,10 +87,6 @@ img {
     margin-bottom: 1.25rem;
     color: white;
 }
-
-/* .card-image--calculator {
-    background-image: url(portfolio/calculator/index.png);
-} */
 
 .card-image {
     background-position: center center;

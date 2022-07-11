@@ -15,30 +15,49 @@ var queryObj = location.search.substr(1).q2obj();
 //
 // {
 //     "resource": "something",
-//     "count": 0
 // }
 
 window.addEventListener("load", () => {
     let list = document.getElementById("photos-list");
     let endpoint = `../portfolio/${queryObj.resource}`;
     let mainResource = `${endpoint}/index.png`;
+    var imagesCount = 1;
 
     list.innerHTML = `
     <li>
-        <a href="${mainResource}" target="_blank">
-            <img class="photo" src="${mainResource}" alt=""/>
-        </a>
+        <img 
+            class="photo"
+            src="${mainResource}"
+            alt="index"
+            onClick="window.open(this.src)"
+        />
     </li>
     `;
 
-    for (i = 1; i <= queryObj.count; i++) {
-        let resource = `${endpoint}/${queryObj.resource}-0${i}.png`;
-        list.innerHTML += `
-        <li>
-            <a href="${resource}" target="_blank">
-                <img class="photo" src="${resource}" alt=""/>
-            </a>
-        </li>
-        `;
+    while (imagesCount != -1) {
+        let resource = `${endpoint}/${queryObj.resource}-0${imagesCount}.png`;
+
+        if (isNotExist(resource)) {
+            imagesCount = -1;
+        } else {
+            list.innerHTML += `
+            <li>
+                <img
+                    class="photo" 
+                    src="${resource}"
+                    alt="${imagesCount}"
+                    onClick="window.open(this.src)"
+                />
+            </li>
+            `;
+            imagesCount += 1;
+        }
     }
 });
+
+function isNotExist(url) {
+    var http = new XMLHttpRequest();
+    http.open("HEAD", url, false);
+    http.send();
+    return http.status == 404;
+}

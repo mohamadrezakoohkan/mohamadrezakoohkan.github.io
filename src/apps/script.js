@@ -191,7 +191,9 @@ window.addEventListener("load", () => {
     appsList.innerHTML = "";
 
     for (let app of data) {
-        var seeMore = `<button class="btn btn--block card__btn" onclick="location.href='../apps/detail/index.html?resource=${app.resource}&count=${app.imagesCount}'">See photos...</button>`;
+        let photosLink = `"location.href='../apps/detail/index.html?resource=${app.resource}'"`;
+
+        var seeMore = `<button class="btn btn--block card__btn" onclick=${photosLink}>See photos...</button>`;
 
         if (app.link != "") {
             seeMore += `<button class="btn btn--block card__btn" onclick="window.open('${app.link}', '_blank')">See on AppStore...</button>`;
@@ -200,7 +202,12 @@ window.addEventListener("load", () => {
         appsList.innerHTML += `
         <li class="card">
             <div class="card-body">
-                <img class="card-image" src="portfolio/${app.resource}/index.png" alt="Lynx"></img>
+                    <img 
+                        class="card-image"
+                        src="portfolio/${app.resource}/index.png" 
+                        alt="${app.resource}" 
+                        onClick=${photosLink}
+                    />
                 <div class="card-content">
                     <div class="card-title">${app.title}</div>
                     <p class="card-text">${app.description}</p>

@@ -1,6 +1,7 @@
 #photos-list {
     padding: 0;
 }
+
 #photos-list li {
     color: #000;
     border-radius: 500px;
@@ -16,6 +17,7 @@
 
 .photo {
     border-radius: 16px;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 900px) {
