@@ -7,26 +7,29 @@ alwaysApply: true
 
 ## Color Palette
 
-Custom color palette (use inline styles or CSS variables):
+Classic IBM/DOS theme (use inline styles or CSS variables):
 
-- **Light Orange**: `#FBD0A6` - Soft text, backgrounds
-- **Pumpkin**: `#F37022` - Highlights, call-to-actions
-- **Cornell Red**: `#B11016` - Strong accents, headers
-- **Keppel**: `#2ABA9E` - Links, interactive elements
-- **Cerulean**: `#007096` - Primary text, structure
-- **Dark Background**: `#001a1a` - Base background
+- **Navy Blue**: `#000080` - Base background
+- **White**: `#FFFFFF` - Headers, primary headlines
+- **Light Gray**: `#AAAAAA` - Body text, secondary content
+- **Cyan**: `#00AAAA` - Links, interactive elements
+- **Bright Yellow**: `#FFFF55` - Buttons, call-to-actions
+- **Lime Green**: `#55FF55` - Highlights, success states
 
 ## Typography
 
 ```html
-<!-- Headlines: Bold, Impact font -->
-<h1 class="font-impact text-4xl" style="color: #F37022;">Welcome!</h1>
+<!-- Headlines: Bold, monospace font -->
+<h1 class="font-mono text-4xl font-bold" style="color: #FFFFFF;">Welcome!</h1>
 
-<!-- Body text: Courier or Arial -->
-<p class="font-courier text-lg" style="color: #FBD0A6;">Content here...</p>
+<!-- Body text: Monospace/Courier -->
+<p class="font-mono text-lg" style="color: #AAAAAA;">Content here...</p>
 
-<!-- Pixel font for special elements -->
-<p class="font-pixel" style="color: #2ABA9E;">Retro text</p>
+<!-- Links: Cyan -->
+<a href="#" class="font-mono" style="color: #00AAAA;">Click here</a>
+
+<!-- Buttons: Yellow background -->
+<button class="font-mono font-bold" style="background: #FFFF55; color: #000080;">READ MORE</button>
 ```
 
 ## Essential Retro Elements
@@ -42,10 +45,12 @@ Include these for authentic 90s feel:
 
 ## Background Patterns
 
-Use repeating patterns or starfield backgrounds:
+Classic DOS solid color or subtle patterns:
 
 ```html
-<body class="bg-black bg-[url('./assets/images/stars.gif')] bg-repeat">
+<body style="background-color: #000080;">
+<!-- OR with subtle texture -->
+<body class="bg-[#000080]">
 ```
 
 ## Animated Elements
@@ -58,6 +63,7 @@ Use repeating patterns or starfield backgrounds:
 ## Layout Tips
 
 - Center content with max-width: `<div class="max-w-4xl mx-auto">`
-- Use borders generously with palette colors: `border-4 border-double` with `border-color: #2ABA9E`
-- Use `.retro-table` class for consistent styling
-- Starfield background with animated colored stars
+- Use borders generously: `border-2` or `border-4` with cyan `#00AAAA`
+- ASCII art borders and decorative elements
+- Box drawing characters for frames: `═══`, `║`, `╔╗╚╝`
+- DOS-style status bars with gray background

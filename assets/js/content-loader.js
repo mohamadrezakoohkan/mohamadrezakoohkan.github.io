@@ -19,11 +19,11 @@ function loadContent() {
         const links = linksResponse[0];
         
         // Render all sections
-        renderSiteInfo(content.site);
-        renderAbout(content.about);
+        renderSidebarAbout(content.sidebar);
+        renderFooter(content.footer);
+        renderSidebarLinks(links.links);
         renderPosts(posts.posts);
         renderLinks(links.links);
-        initVisitorCounter(content.site.visitorCount);
     }).fail(function() {
         console.error('Failed to load data files');
     });

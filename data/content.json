@@ -1,16 +1,13 @@
 {
-  "site": {
-    "title": "Reza's Blog",
-    "subtitle": "⚡ iOS Engineer since 2016 ⚡\nShipped more than 10,000 releases for different apps weekly/monthly\nBuilt with zero build tools: Pure HTML5 + Tailwind CSS (CDN) + jQuery (CDN)",
-    "lastUpdated": "February 4, 2026",
-    "visitorCount": 1337
-  },
-  "about": {
-    "name": "Reza",
+  "sidebar": {
+    "aboutTitle": "ABOUT REZA",
     "role": "iOS Engineer",
     "experience": "Since 2016",
-    "achievement": "Shipped more than 10,000 releases for different apps weekly/monthly",
-    "description": "Welcome. This is Reza's personal corner of the web, an iOS Engineer who has been shipping apps since 2016. With over 10,000 releases under my belt, I write about iOS engineering, tech, and other things I find interesting.",
-    "note": "This site works best with JavaScript enabled. Optimized for modern browsers but designed with a retro aesthetic."
+    "achievement": "Shipped 10,000+ releases for different apps",
+    "bio": "Writing about iOS engineering, tech, and interesting findings."
+  },
+  "footer": {
+    "banner": "*** MY CORNER OF THE WEB *** BEST VIEWED WITH WINDOWS XP OR HIGHER ***",
+    "copyright": "© 1998 REZA’S TECH BLOG — CC0 (NO RIGHTS RESERVED) - POWERED BY DIRECTX AND 56K MODEM"
   }
 }

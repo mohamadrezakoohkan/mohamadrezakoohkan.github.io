@@ -35,12 +35,12 @@ async function getIP() {
 function updateIPGreeting(ip) {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const greeting = getGreeting(timeZone);
-    const $title = $('#site-title');
+    const $banner = $('#greeting-banner');
     
     if (ip && ip !== DEFAULT_IP) {
-        $title.html(`<span style="color: #FBD0A6;">${greeting}</span> <span style="color: #007096;">${ip}</span> <span style="color: #FBD0A6;">to Reza's Blog</span>`);
+        $banner.html(`<span class="blink" style="color: #FFFF55;">►</span> <span style="color: #55FF55; font-family: 'Courier New', monospace;">${greeting} ${ip}</span> <span class="blink">▌</span>`);
     } else {
-        $title.html(`<span style="color: #FBD0A6;">Reza's Blog</span>`);
+        $banner.html(`<span class="blink" style="color: #FFFF55;">►</span> <span class="blink">▌</span>`);
     }
 }
 
