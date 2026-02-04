@@ -1,0 +1,43 @@
+---
+description: Strict profile information for Reza - NEVER deviate from these facts
+alwaysApply: true
+---
+
+# Profile Information - STRICT RULE
+
+**CRITICAL**: This information is FACTUAL and must NEVER be changed, modified, or interpreted differently.
+
+## Personal Information
+
+- **Name**: Reza
+- **Role**: iOS Engineer (NOT "iOS Developer", NOT "Software Engineer" - specifically iOS Engineer)
+- **Experience Start**: 2016
+- **Achievement**: Shipped more than 10,000 releases for different apps (weekly/monthly cadence)
+
+## Usage Guidelines
+
+When writing about Reza anywhere in the codebase:
+
+```markdown
+✅ CORRECT:
+- "Reza, iOS Engineer since 2016"
+- "Reza has shipped more than 10,000 releases"
+- "iOS engineer with 10+ years experience"
+- "Shipped over 10,000 releases weekly and monthly"
+
+❌ INCORRECT:
+- "Webmaster" (outdated term)
+- "Software engineer" (too generic)
+- "iOS developer" (use "iOS Engineer")
+- Any other variations or approximations
+```
+
+## Content Areas to Check
+
+When updating any content about Reza, ensure:
+- **data/content.json**: Profile information matches exactly
+- **about.html**: Biography reflects these facts
+- **index.html**: Any author mentions use "iOS Engineer"
+- **Email/contact forms**: Use appropriate professional title
+
+**NOTE**: This is about professional identity. Use these exact facts in all contexts.
