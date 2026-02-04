@@ -1,0 +1,106 @@
+---
+description: jQuery conventions and patterns
+globs: "**/*.html,**/*.js"
+alwaysApply: false
+---
+
+# jQuery Conventions
+
+## Document Ready
+
+Always wrap code in document ready:
+
+```javascript
+$(function() {
+    // Your code here - runs when DOM is ready
+});
+```
+
+## Selectors
+
+```javascript
+// ✅ Good - cache selectors
+const $navbar = $('.navbar');
+const $posts = $('.post');
+
+// ❌ Avoid - repeated DOM queries
+$('.navbar').hide();
+$('.navbar').fadeIn();
+```
+
+## Event Handling
+
+Use `.on()` for all event binding:
+
+```javascript
+// Click events
+$('.guestbook-btn').on('click', function() {
+    $('#guestbook-form').slideToggle();
+});
+
+// Hover effects
+$('.nav-link').on('mouseenter', function() {
+    $(this).addClass('text-pink-500');
+}).on('mouseleave', function() {
+    $(this).removeClass('text-pink-500');
+});
+```
+
+## Retro Effects
+
+Perfect jQuery effects for 90s feel:
+
+```javascript
+// Fade in elements on page load
+$('.welcome-msg').hide().fadeIn(1000);
+
+// Slide toggle for expanding sections
+$('.read-more').on('click', function() {
+    $(this).next('.full-content').slideToggle();
+});
+
+// Animated visitor counter
+function animateCounter(target) {
+    $({ count: 0 }).animate({ count: target }, {
+        duration: 2000,
+        step: function() {
+            $('#visitor-count').text(Math.floor(this.count));
+        }
+    });
+}
+```
+
+## Script Organization
+
+Follow SOLID principles with single-responsibility modules in `assets/js/`:
+
+- `greeting.js` - IP and timezone greeting
+- `content-loader.js` - JSON data loading (from data/ folder)
+- `renderer.js` - DOM rendering (populates HTML from JSON)
+- `effects.js` - Animations and visual effects
+- `main.js` - Main orchestrator
+
+**Data Flow:**
+1. `content-loader.js` fetches JSON files
+2. Passes data to `renderer.js` functions
+3. `renderer.js` updates DOM via jQuery selectors
+4. NO content should ever be hardcoded in HTML or JavaScript
+
+```javascript
+// main.js - orchestrates all modules
+$(function() {
+    initIPGreeting();
+    loadContent();
+    initWelcomeAnimation();
+    initNavEffects();
+});
+```
+
+**Loading order in HTML:**
+```html
+<script src="./assets/js/greeting.js"></script>
+<script src="./assets/js/content-loader.js"></script>
+<script src="./assets/js/renderer.js"></script>
+<script src="./assets/js/effects.js"></script>
+<script src="./assets/js/main.js"></script>
+```

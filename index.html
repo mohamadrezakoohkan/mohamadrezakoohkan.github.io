@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal blog of a software engineer. Web 1.0 style since 2026.">
+    <title>🌟 Home | Developer Blog 🌟</title>
+    
+    <!-- Google Fonts - Pixel Art Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'courier': ['"Courier New"', 'monospace'],
+                        'arial': ['Arial', 'sans-serif'],
+                        'comic': ['"Comic Sans MS"', 'cursive'],
+                        'impact': ['Impact', 'fantasy'],
+                        'pixel': ['"Press Start 2P"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Color Palette */
+        :root {
+            --light-orange: #FBD0A6;
+            --pumpkin: #F37022;
+            --cornell-red: #B11016;
+            --keppel: #2ABA9E;
+            --cerulean: #007096;
+        }
+        
+        /* Starfield background */
+        body {
+            background-color: #001a1a;
+            background-image: 
+                radial-gradient(#FBD0A6, rgba(251,208,166,.2) 2px, transparent 40px),
+                radial-gradient(#2ABA9E, rgba(42,186,158,.15) 1px, transparent 30px),
+                radial-gradient(#F37022, rgba(243,112,34,.1) 2px, transparent 40px),
+                radial-gradient(rgba(251,208,166,.4), rgba(251,208,166,.1) 2px, transparent 30px);
+            background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+            background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+        }
+        
+        /* Retro link colors */
+        a {
+            color: #2ABA9E;
+            text-decoration: underline;
+            text-shadow: 0 0 5px #2ABA9E;
+        }
+        a:visited {
+            color: #007096;
+            text-shadow: 0 0 5px #007096;
+        }
+        a:hover {
+            color: #F37022;
+            text-shadow: 0 0 10px #F37022;
+        }
+        
+        /* Blink animation for retro text */
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        /* Rainbow text animation - using custom palette */
+        @keyframes rainbow {
+            0% { color: #B11016; }
+            25% { color: #F37022; }
+            50% { color: #FBD0A6; }
+            75% { color: #2ABA9E; }
+            100% { color: #B11016; }
+        }
+        .rainbow-text {
+            animation: rainbow 3s infinite;
+            font-weight: bold;
+        }
+        
+        /* Pixel art style borders */
+        .pixel-border {
+            border-style: solid;
+            border-width: 4px;
+            image-rendering: pixelated;
+        }
+        
+        /* Retro button style */
+        .retro-button {
+            background: linear-gradient(145deg, #B11016, #007096);
+            border: 3px solid #2ABA9E;
+            padding: 8px 16px;
+            color: #FBD0A6;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-shadow: 2px 2px #000;
+            box-shadow: 0 0 10px #F37022, inset 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        /* Glowing text effect */
+        .glow {
+            text-shadow: 0 0 10px #fff, 0 0 20px #2ABA9E, 0 0 30px #2ABA9E, 0 0 40px #2ABA9E, 0 0 70px #007096, 0 0 80px #007096, 0 0 100px #007096, 0 0 150px #007096;
+        }
+        
+        /* Retro table styling */
+        .retro-table {
+            border: 4px double #2ABA9E;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        /* Marquee scrolling */
+        marquee {
+            color: #F37022;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-white font-arial">
+    
+    <!-- Main Container -->
+    <div class="min-h-screen py-8 px-4">
+        
+        <!-- Marquee Banner -->
+        <div class="mb-6">
+            <marquee behavior="scroll" direction="left" class="text-xl font-comic">
+                ✨ Welcome to my GeoCities corner of the web! ✨ Sign my guestbook! ✨ Under construction since 2026! ✨
+            </marquee>
+        </div>
+        
+        <!-- Header Section -->
+        <header class="max-w-4xl mx-auto mb-8 pixel-border pb-6 p-6 rounded-lg" style="border-color: #B11016; background: linear-gradient(to right, rgba(0, 112, 150, 0.6), rgba(177, 16, 22, 0.6));">
+            <div class="welcome-msg text-center">
+                <h1 id="site-title" class="font-impact text-6xl font-bold mb-4" style="color: #FBD0A6; letter-spacing: 3px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">
+                    💻 DEVELOPER'S BLOG 💻
+                </h1>
+                <p id="site-subtitle" class="text-sm font-courier" style="color: #FBD0A6; line-height: 1.6; white-space: pre-line;">
+                    <!-- Content loaded from content.json -->
+                </p>
+            </div>
+        </header>
+        
+        <!-- Navigation Bar -->
+        <nav class="max-w-4xl mx-auto mb-8">
+            <div class="retro-table p-4 rounded">
+                <div class="flex flex-wrap justify-center gap-4 font-courier text-lg">
+                    <a href="index.html" class="nav-link font-bold px-4 py-2 rounded border-2 hover:scale-110 transition-transform" style="background-color: #B11016; border-color: #2ABA9E;">🏠 HOME</a>
+                    <a href="about.html" class="nav-link px-4 py-2 rounded border-2 hover:scale-110 transition-transform" style="background-color: #007096; border-color: #F37022;">👤 ABOUT</a>
+                    <a href="posts/index.html" class="nav-link px-4 py-2 rounded border-2 hover:scale-110 transition-transform" style="background-color: #2ABA9E; border-color: #FBD0A6;">📝 BLOG</a>
+                    <a href="guestbook.html" class="nav-link px-4 py-2 rounded border-2 hover:scale-110 transition-transform" style="background-color: #F37022; border-color: #B11016;">📖 GUESTBOOK</a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto">
+            
+            <!-- About This Site -->
+            <section class="mb-8 p-6 retro-table rounded-lg">
+                <h2 class="font-impact text-4xl font-bold mb-4 text-center rainbow-text" style="letter-spacing: 2px;">
+                    ★ ABOUT THIS SITE ★
+                </h2>
+                <div class="space-y-4 leading-relaxed text-lg border-4 border-double p-4 bg-black bg-opacity-50 rounded" style="color: #2ABA9E; border-color: #007096;">
+                    <p id="about-description" class="font-courier">
+                        <span class="font-bold" style="color: #F37022;">⚡ WELCOME! ⚡</span> This is my personal corner of the web where I write about 
+                        software engineering, tech, and other things I find interesting. Grab a seat, maybe some 
+                        <span style="color: #B11016;">pizza rolls</span>, and enjoy the <span style="color: #FBD0A6;">retro vibes</span>! 🍕
+                    </p>
+                    <p id="about-note" class="text-sm border-l-4 pl-3" style="color: #FBD0A6; border-color: #B11016;">
+                        <strong style="color: #F37022;">⚠️ NOTE:</strong> This site works best with JavaScript enabled. 
+                        Optimized for modern browsers but designed with an authentic 90s GeoCities aesthetic. 
+                        If you can't see the animated GIFs, check your connection to the information superhighway! 🛣️
+                    </p>
+                    <div class="text-center mt-4">
+                        <a href="mailto:webmaster@example.com" class="retro-button inline-block hover:scale-110 transition-transform">
+                            📧 EMAIL THE WEBMASTER! 📧
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Latest Posts -->
+            <section class="mb-8 retro-table p-6 rounded-lg">
+                <h2 class="font-impact text-4xl font-bold mb-6 text-center" style="color: #B11016; text-shadow: 3px 3px #2ABA9E; letter-spacing: 2px;">
+                    🔥 RECENT POSTS 🔥
+                </h2>
+                
+                <div id="posts-container" class="space-y-6">
+                    <!-- Posts will be loaded dynamically from content.json -->
+                </div>
+            </section>
+            
+            <!-- Links Section -->
+            <section class="mb-8 p-6 border-4 border-double rounded-lg" style="border-color: #F37022; background: rgba(0, 112, 150, 0.5);">
+                <h2 class="font-impact text-3xl font-bold mb-4 text-center" style="color: #FBD0A6; text-shadow: 2px 2px #B11016;">
+                    🌐 COOL LINKS 🌐
+                </h2>
+                <ul id="links-list" class="space-y-3 font-courier text-lg">
+                    <!-- Links will be loaded dynamically from content.json -->
+                </ul>
+            </section>
+            
+        </main>
+        
+        <!-- Footer -->
+        <footer class="max-w-4xl mx-auto mt-12 pt-6 retro-table p-6 rounded-lg">
+            <div class="text-center space-y-4">
+                <!-- Footer Links -->
+                <div class="space-y-2 font-courier" style="color: #FBD0A6;">
+                    <p class="text-lg">
+                        📅 Last updated: <span id="last-updated" class="font-bold" style="color: #F37022;">February 4, 2026</span>
+                    </p>
+                    <p class="text-sm" style="color: #2ABA9E;">
+                        🛠️ Handcrafted with plain HTML, Tailwind CSS, and jQuery
+                    </p>
+                    <p class="text-xs" style="color: #007096;">
+                        © 2026 - Made with ❤️ on the information superhighway
+                    </p>
+                </div>
+                
+                <!-- Webmaster Badge -->
+                <div class="mt-4">
+                    <p class="font-bold text-sm blink" style="color: #F37022;">⚠️ WEBMASTER ON DUTY ⚠️</p>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Bottom Marquee -->
+        <div class="mt-6">
+            <marquee behavior="scroll" direction="right" class="text-lg font-comic" style="color: #B11016;">
+                🌟 Don't forget to sign my guestbook! 🌟 Link me and I'll link you back! 🌟 This site is optimized for 800x600 resolution! 🌟
+            </marquee>
+        </div>
+        
+    </div>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Load modules in order -->
+    <script src="./assets/js/greeting.js"></script>
+    <script src="./assets/js/content-loader.js"></script>
+    <script src="./assets/js/renderer.js"></script>
+    <script src="./assets/js/effects.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>

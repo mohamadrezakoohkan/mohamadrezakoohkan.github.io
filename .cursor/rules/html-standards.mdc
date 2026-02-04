@@ -1,0 +1,64 @@
+---
+description: HTML standards and structure for blog pages
+globs: "**/*.html"
+alwaysApply: false
+---
+
+# HTML Standards
+
+## Base Template
+
+Every HTML page should follow this structure:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page description here">
+    <title>Page Title | My Retro Blog</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'comic': ['"Comic Sans MS"', 'cursive'],
+                        'times': ['"Times New Roman"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Content here -->
+    
+    <!-- jQuery at bottom -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
+```
+
+## Content vs Presentation
+
+**HTML = Structure ONLY. Content = JSON files.**
+
+- HTML elements use IDs for JavaScript targeting: `<h1 id="site-title"></h1>`
+- All dynamic text content loaded from `data/*.json` files
+- Use HTML comments as reminders: `<!-- Content loaded from content.json -->`
+
+## Accessibility Basics
+
+- Always include `alt` text for images: `<img src="fire.gif" alt="Decorative flames">`
+- Use semantic elements: `<header>`, `<nav>`, `<main>`, `<article>`, `<footer>`
+- Ensure sufficient color contrast for text readability
+
+## Script Placement
+
+- Tailwind CDN in `<head>` (needs to load first for styles)
+- jQuery and custom scripts at bottom of `<body>`

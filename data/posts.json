@@ -1,0 +1,16 @@
+{
+  "posts": [
+    {
+      "title": "Welcome to My Blog",
+      "date": "February 4, 2026",
+      "excerpt": "First post on this new site. Building a personal blog with a retro aesthetic inspired by the early web days. Clean, simple, functional.",
+      "url": "posts/welcome.html"
+    },
+    {
+      "title": "The Beauty of Simple Web Design",
+      "date": "February 3, 2026",
+      "excerpt": "Thoughts on why minimalist web design still works. Sometimes less really is more. No frameworks, no build steps, just HTML and CSS.",
+      "url": "posts/90s-web.html"
+    }
+  ]
+}

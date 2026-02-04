@@ -1,0 +1,63 @@
+---
+description: 90s GeoCities aesthetic guidelines
+alwaysApply: true
+---
+
+# Retro 90s Style Guide
+
+## Color Palette
+
+Custom color palette (use inline styles or CSS variables):
+
+- **Light Orange**: `#FBD0A6` - Soft text, backgrounds
+- **Pumpkin**: `#F37022` - Highlights, call-to-actions
+- **Cornell Red**: `#B11016` - Strong accents, headers
+- **Keppel**: `#2ABA9E` - Links, interactive elements
+- **Cerulean**: `#007096` - Primary text, structure
+- **Dark Background**: `#001a1a` - Base background
+
+## Typography
+
+```html
+<!-- Headlines: Bold, Impact font -->
+<h1 class="font-impact text-4xl" style="color: #F37022;">Welcome!</h1>
+
+<!-- Body text: Courier or Arial -->
+<p class="font-courier text-lg" style="color: #FBD0A6;">Content here...</p>
+
+<!-- Pixel font for special elements -->
+<p class="font-pixel" style="color: #2ABA9E;">Retro text</p>
+```
+
+## Essential Retro Elements
+
+Include these for authentic 90s feel:
+
+- **Visitor Counter**: Simple numeric counter
+- **Last Updated**: `Last updated: February 4, 2026`
+- **Guestbook link**: Sign my guestbook!
+- **Email link**: `📧 Email me!`
+- **Marquee scrolling text**
+- **Pixel fonts** (Press Start 2P)
+
+## Background Patterns
+
+Use repeating patterns or starfield backgrounds:
+
+```html
+<body class="bg-black bg-[url('./assets/images/stars.gif')] bg-repeat">
+```
+
+## Animated Elements
+
+- jQuery effects: `.fadeIn()`, `.slideDown()`, `.animate()`
+- CSS animations for blinking text (use sparingly)
+- Cursor sparkle trail
+- Rainbow text animations using color palette
+
+## Layout Tips
+
+- Center content with max-width: `<div class="max-w-4xl mx-auto">`
+- Use borders generously with palette colors: `border-4 border-double` with `border-color: #2ABA9E`
+- Use `.retro-table` class for consistent styling
+- Starfield background with animated colored stars

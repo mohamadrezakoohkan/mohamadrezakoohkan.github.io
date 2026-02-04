@@ -1,0 +1,93 @@
+---
+description: Core project conventions for the retro 90s blog
+alwaysApply: true
+---
+
+# Project Conventions
+
+## Technology Stack (CDN Only)
+
+All libraries loaded via CDN - no build tools or npm:
+
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+```
+
+## File Structure
+
+```
+Blog/
+├── index.html          # Homepage
+├── about.html          # About page
+├── guestbook.html      # Guestbook
+├── posts/              # Blog posts (individual HTML files)
+├── data/               # JSON data files (CONTENT LIVES HERE)
+│   ├── content.json    # Site info, about text
+│   ├── posts.json      # Blog post list
+│   └── links.json      # External links
+├── assets/
+│   ├── images/         # Personal images
+│   ├── gifs/           # Retro animated GIFs
+│   └── js/             # Custom JavaScript modules
+│       ├── greeting.js        # IP greeting logic
+│       ├── content-loader.js  # JSON loading
+│       ├── renderer.js        # DOM rendering
+│       ├── effects.js         # Animations
+│       └── main.js            # Orchestrator
+└── README.md
+```
+
+## Naming Conventions
+
+- **Files**: `kebab-case.html` (e.g., `my-first-post.html`)
+- **Images**: `kebab-case.png/jpg/gif`
+- **CSS classes**: Use Tailwind utilities; custom classes in `kebab-case`
+
+## Data-Driven Architecture (CRITICAL)
+
+**NEVER hardcode dynamic content in HTML files!**
+
+This site follows a strict separation of content and presentation:
+
+### Content Storage (data/ folder)
+- **data/content.json** - Site metadata (title, subtitle, about text, last updated)
+- **data/posts.json** - Blog posts list
+- **data/links.json** - External links
+
+### Content Loading Pattern
+1. HTML contains ONLY placeholders with IDs (e.g., `<p id="site-subtitle">`)
+2. JavaScript modules load JSON files via `content-loader.js`
+3. Renderer functions (`renderer.js`) populate the DOM from JSON data
+
+### Example - CORRECT Way:
+```javascript
+// data/content.json
+{
+  "site": {
+    "subtitle": "AI-powered by Claude Sonnet 4.5"
+  }
+}
+
+// HTML - placeholder only
+<p id="site-subtitle"><!-- Loaded from content.json --></p>
+
+// renderer.js - populates from JSON
+function renderSiteInfo(site) {
+    $('#site-subtitle').text(site.subtitle);
+}
+```
+
+### ❌ WRONG - Never do this:
+```html
+<p id="site-subtitle">AI-powered by Claude Sonnet 4.5</p>
+```
+
+**When editing content, always update JSON files, never HTML!**
+
+## GitHub Pages Constraints
+
+- All files must be static (HTML, CSS, JS, images)
+- No server-side code or processing
+- Entry point is `index.html` in root
+- Use relative paths for all assets: `./assets/images/photo.jpg`

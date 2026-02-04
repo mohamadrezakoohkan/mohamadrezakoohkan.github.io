@@ -1,0 +1,70 @@
+---
+description: Tailwind CSS conventions and custom styles
+globs: "**/*.html"
+alwaysApply: false
+---
+
+# Tailwind CSS Conventions
+
+## CDN Configuration
+
+Extend Tailwind config in `<head>` for custom fonts and colors:
+
+```html
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    'comic': ['"Comic Sans MS"', 'cursive'],
+                    'times': ['"Times New Roman"', 'serif'],
+                    'courier': ['"Courier New"', 'monospace'],
+                },
+                animation: {
+                    'blink': 'blink 1s step-end infinite',
+                    'marquee': 'marquee 15s linear infinite',
+                },
+                keyframes: {
+                    blink: {
+                        '50%': { opacity: '0' },
+                    },
+                    marquee: {
+                        '0%': { transform: 'translateX(100%)' },
+                        '100%': { transform: 'translateX(-100%)' },
+                    },
+                }
+            }
+        }
+    }
+</script>
+```
+
+## Common Retro Patterns
+
+```html
+<!-- Centered container with retro border -->
+<div class="max-w-3xl mx-auto p-4 border-4 border-double border-cyan-400 bg-black/80">
+
+<!-- Glowing text effect -->
+<h1 class="text-pink-500 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]">
+
+<!-- Marquee-style scroll -->
+<div class="overflow-hidden whitespace-nowrap">
+    <span class="inline-block animate-marquee">Welcome to my page!</span>
+</div>
+
+<!-- Blinking text (use sparingly!) -->
+<span class="animate-blink text-red-500">NEW!</span>
+```
+
+## Utility Preferences
+
+- Prefer Tailwind utilities over custom CSS
+- Use arbitrary values when needed: `text-[#ff00ff]`, `w-[200px]`
+- Combine utilities for complex effects via `class="..."`
+
+## Inline Styles
+
+Only use inline `style=""` for:
+- One-off backgrounds: `style="background-image: url(...)"`
+- Complex gradients not in Tailwind

@@ -1,0 +1,12 @@
+{
+  "site": {
+    "title": "Reza's Blog",
+    "subtitle": "⚡ AI-powered by Claude Sonnet 4.5 ⚡\nBuilt with zero build tools: Pure HTML5 + Tailwind CSS (CDN) + jQuery (CDN)\nBlazing fast • Zero dependencies • Sub-100KB • Instant rendering",
+    "lastUpdated": "February 4, 2026",
+    "visitorCount": 1337
+  },
+  "about": {
+    "description": "Welcome. This is my personal corner of the web where I write about software engineering, tech, and other things I find interesting.",
+    "note": "This site works best with JavaScript enabled. Optimized for modern browsers but designed with a retro aesthetic."
+  }
+}
