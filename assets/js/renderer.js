@@ -10,41 +10,53 @@ function renderPosts(posts) {
     const $container = $('#posts-container');
     $container.empty();
     
-    const borderColors = ['#B11016', '#F37022', '#2ABA9E', '#007096', '#FBD0A6'];
-    const bgColors = ['rgba(177, 16, 22, 0.3)', 'rgba(243, 112, 34, 0.3)', 'rgba(42, 186, 158, 0.3)', 'rgba(0, 112, 150, 0.3)', 'rgba(251, 208, 166, 0.2)'];
-    
     posts.forEach(function(post, index) {
-        const borderColor = borderColors[index % borderColors.length];
-        const bgColor = bgColors[index % bgColors.length];
+        // Create post wrapper
+        const $postDiv = $('<div>')
+            .addClass('mb-5 pb-4')
+            .css('border-bottom', index < posts.length - 1 ? '1px solid #AAAAAA' : 'none');
         
-        const $article = $('<article>')
-            .addClass('border-4 border-double p-3 rounded-lg')
-            .css({
-                'border-color': borderColor,
-                'background-color': bgColor
-            });
-        
+        // Create title with NEW badge for first post
         const $title = $('<h3>')
-            .addClass('font-impact text-xl font-bold mb-2')
-            .css({
-                'color': '#F37022',
-                'text-shadow': '2px 2px #2ABA9E',
-                'letter-spacing': '1px'
-            })
-            .html('⚡ <a href="' + post.url + '">' + post.title + '</a> ⚡');
+            .addClass('font-mono font-bold text-base mb-2')
+            .css('color', '#FFFFFF');
         
-        const $date = $('<p>')
-            .addClass('text-xs mb-2 font-courier')
-            .css('color', '#2ABA9E')
-            .html('📅 ' + post.date);
+        // Add NEW badge for first post (DOS style)
+        if (index === 0) {
+            const $newBadge = $('<span>')
+                .css({
+                    'background-color': '#FFFF55',
+                    'color': '#000080',
+                    'padding': '2px 6px',
+                    'margin-right': '8px',
+                    'font-weight': 'bold',
+                    'font-size': '0.75em',
+                    'border': '2px solid #000000'
+                })
+                .text('NEW!');
+            $title.append($newBadge);
+        }
         
+        $title.append(post.title + ' | ' + post.date);
+        
+        // Create excerpt
         const $excerpt = $('<p>')
-            .addClass('leading-relaxed font-courier text-sm')
-            .css('color', '#FBD0A6')
+            .addClass('text-sm leading-relaxed mb-3')
+            .css('color', '#AAAAAA')
             .text(post.excerpt);
         
-        $article.append($title, $date, $excerpt);
-        $container.append($article);
+        // Create read more button
+        const $button = $('<a>')
+            .attr('href', post.url)
+            .addClass('dos-button text-xs')
+            .css({
+                'padding': '4px 12px',
+                'display': 'inline-block'
+            })
+            .text('READ MORE');
+        
+        $postDiv.append($title, $excerpt, $button);
+        $container.append($postDiv);
     });
 }
 
