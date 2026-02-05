@@ -1,44 +1,35 @@
 {
   "posts": [
     {
-      "id": "welcome",
-      "title": "Welcome to My Blog",
-      "date": "February 4, 2026",
-      "excerpt": "First post on this new site. Building a personal blog with a retro aesthetic inspired by the early web days. Clean, simple, functional.",
-      "url": "posts/post.html?id=welcome",
+      "id": "why-i-left-medium",
+      "title": "Why I Stopped Renting Space on Medium",
+      "date": "February 5, 2026",
+      "excerpt": "After years of publishing on Medium, I walked away. The paywall, the lack of ownership, the sameness. Here's why I stopped renting and started building.",
+      "url": "posts/post.html?id=why-i-left-medium",
       "content": [
-        "Welcome to my corner of the internet! I'm Reza, an iOS Engineer since 2016, and this is my personal blog where I share thoughts on technology, engineering, and interesting findings.",
-        "I decided to build this blog with a retro aesthetic inspired by the early web days. No fancy frameworks, no build steps, no npm packages to maintain. Just plain HTML, CSS, and a sprinkle of JavaScript.",
-        "═══ WHY RETRO? ═══",
-        "There's something beautiful about the simplicity of 90s web design. Back then, websites were about content first. No cookie banners, no newsletter popups, no autoplaying videos. Just information, clearly presented.",
-        "This blog is my attempt to capture that spirit while still being functional and readable on modern devices.",
-        "═══ WHAT TO EXPECT ═══",
-        "I'll be writing about iOS engineering, software architecture, and the occasional deep-dive into interesting technical problems I encounter. Having shipped over 10,000 releases for different apps, I've seen a lot of patterns—both good and bad.",
-        "Stay tuned, and thanks for visiting!"
-      ]
-    },
-    {
-      "id": "90s-web",
-      "title": "The Beauty of Simple Web Design",
-      "date": "February 3, 2026",
-      "excerpt": "Thoughts on why minimalist web design still works. Sometimes less really is more. No frameworks, no build steps, just HTML and CSS.",
-      "url": "posts/post.html?id=90s-web",
-      "content": [
-        "The modern web is bloated. A simple blog post often requires megabytes of JavaScript, dozens of HTTP requests, and a small data center to render. This got me thinking: why?",
-        "═══ THE 90S HAD IT RIGHT ═══",
-        "When the web was young, constraints bred creativity. Limited bandwidth meant every byte counted. Limited browser capabilities meant focusing on what mattered: content.",
-        "A typical 90s webpage was:",
-        "• Fast to load (even on a 56k modem)",
-        "• Easy to navigate",
-        "• Focused on content",
-        "• Accessible by default",
-        "═══ MODERN BLOAT ═══",
-        "Today's average webpage is over 2MB. That's larger than the entire game DOOM (1993). Think about that for a moment.",
-        "We've traded simplicity for complexity, content for tracking scripts, speed for analytics. The user experience often suffers.",
-        "═══ FINDING BALANCE ═══",
-        "I'm not suggesting we abandon all progress. Modern CSS gives us responsive design. JavaScript enables interactivity. But we should be intentional about what we add.",
-        "This blog uses Tailwind via CDN and a bit of jQuery. That's it. No React, no webpack, no node_modules folder with 500MB of dependencies.",
-        "Sometimes, less really is more."
+        "I published couple of posts on Medium. It was convenient. Write something, hit publish, and the platform handled the rest of the distribution, formatting, and readers. For a while, that trade-off felt worth it.",
+        "But now it doesn't anymore.",
+        "This isn't a takedown piece tbh, Medium served its purpose. But at some point the costs started outweighing the convenience, and I realized I was renting space on someone else's land when I could've been building my own house all along.",
+        "═══ THE PAYWALL PROBLEM ═══",
+        "Medium's monetization model fundamentally changed the relationship between writer and reader. The paywall doesn't protect quality, it gates access. When I write something, I want people to read it. Not to hit a wall asking for $5/month before they can see what I've written next.",
+        "I don't write to earn fractions of a cent per clap. I write because sharing what I've learned shipping software for nearly a decade matters more to me than a payout dashboard. The paywall turned readers into conversion targets, and that's not a game I want to play.",
+        "═══ RENTING VS OWNING ═══",
+        "Every article I published on Medium lived on their domain, under their rules, rendered by their engine. I was a tenant. A tenant with no lease agreement and no guarantee that the landlord wouldn't change the locks.",
+        "One algorithm change and your archive disappears from feeds. One policy update and your content gets different treatment. You're building someone else's library, not your own.",
+        "After shipping more than 10,000 releases across different apps, I've learned that owning your pipeline matters. The same principle applies to writing. If the platform disappears tomorrow, where does your work go?",
+        "═══ SIGNAL VS NOISE ═══",
+        "Medium used to feel like a place where practitioners shared real experience. Somewhere along the way, it shifted. The feed filled up with listicles, engagement-bait headlines, and recycled advice dressed up as insight.",
+        "The platform rewards volume and virality, not depth. When \"10 JavaScript Tricks You NEED to Know\" sits next to a thoughtful architecture post and gets 50x the engagement, the incentive structure is broken. Good content drowns in noise.",
+        "═══ WHY A PERSONAL BLOG ═══",
+        "This blog is the opposite of everything I just described.",
+        "• No paywall, free, forever",
+        "• No sign-up nags or cookie banners",
+        "• Reflects my desk",
+        "• My content, my domain, my rules, why not?",
+        "It loads fast, it's simple, and it prioritizes the one thing that actually matters: the writing itself.",
+        "Building your own blog in 2026 might seem old-fashioned. But so does shipping software that actually works. Sometimes the old ways are the right ways.",
+        "If you're an engineer still publishing exclusively on Medium, consider this: you'd never ship an app where a third party controlled the deployment pipeline, the UI, and whether users could actually access your product. Why accept that for your writing?",
+        "I'm trying to own my platform and not renting it."
       ]
     }
   ]

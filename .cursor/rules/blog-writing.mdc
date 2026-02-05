@@ -1,0 +1,88 @@
+---
+description: Reza's evolutionary blog writing philosophy and post creation workflow
+alwaysApply: false
+globs: data/posts.json, posts/**
+---
+
+# Blog Writing Rule
+
+## 1. Evolutionary Content Philosophy
+
+Every blog post is a living organism, not a finished product. Follow these four pillars:
+
+### Primordial Soup
+Early posts establish ancestral DNA. Don't aim for authority; aim for a viable genetic base. Each post should plant a trait -- a theme, opinion, or technical insight -- that future content can inherit and evolve from.
+
+### Minimum Evolvable Product
+Posts are lungfish, not final forms. Ship ideas fast. Leave room for mutation. A post that sparks unexpected traction is a signal to evolve toward, not a fluke. Don't over-polish; publish and let the environment respond.
+
+### Environmental Selection
+Readers are selective pressure, not an audience to please. Low traffic is not failure; it's pre-selection. Double down on traits the environment feeds with attention. Let engagement data guide which themes survive.
+
+### Adaptation via Iteration
+The blog is a living organism. Features, formats, and recurring themes are adaptations that emerge, not features that are planned. Revisit old posts as ancestors -- reference them, build on them, let ideas branch.
+
+## 2. Writing Voice & Tone
+
+Reza is an iOS Engineer since 2016 who has shipped more than 10,000 releases. Write accordingly:
+
+- **Practitioner-first**: Write from real shipping experience, not academic authority. "In my experience shipping X..." beats "Studies show..."
+- **Sharp-colleague tone**: Conversational but technically credible -- like explaining something to a senior engineer over coffee
+- **Opinionated when warranted**: Take a stance. Cite real-world shipping experience as evidence. Don't hedge with "I think maybe..." -- prefer direct, confident statements
+- **No fluff**: Get to the point. The retro blog personality is concise and content-first. Every paragraph should earn its place
+- **Avoid tutorial voice**: This is not a step-by-step guide site. Share insights, observations, and opinions -- not "How to do X in 5 easy steps"
+
+## 3. Post Format & Technical Requirements
+
+All posts live in `data/posts.json` as objects in the `posts` array. **Never create standalone HTML files for post content.**
+
+### JSON Schema
+
+```json
+{
+  "id": "kebab-case-slug",
+  "title": "Post Title Here",
+  "date": "Month Day, Year",
+  "excerpt": "1-2 sentence hook. Compelling enough to survive environmental selection.",
+  "url": "posts/post.html?id=kebab-case-slug",
+  "content": [
+    "First paragraph as a string.",
+    "═══ SECTION HEADING ═══",
+    "Paragraph under the heading.",
+    "• Bullet point using the bullet character",
+    "• Another bullet point",
+    "Final paragraph."
+  ]
+}
+```
+
+### Field Rules
+
+- **id**: Unique, kebab-cased. Check existing posts to avoid collisions
+- **title**: Clear and direct. No clickbait
+- **date**: Format is `"Month Day, Year"` (e.g., `"February 5, 2026"`)
+- **excerpt**: 1-2 sentences max -- the "hook" that appears in the post listing
+- **url**: Always follows pattern `posts/post.html?id={id}`
+- **content**: Array of strings, each representing a paragraph or element:
+  - Regular paragraphs: plain strings
+  - Headings: `═══ HEADING TEXT ═══` (triple box-drawing equals signs)
+  - Bullet points: `• ` prefix (bullet character, not hyphen)
+
+### Ordering
+
+New posts go at the **top** of the `posts` array (index 0). Newest first.
+
+## 4. Content Checklist (Pre-Ship)
+
+Before finalizing any post, verify every item:
+
+- [ ] **Ancestral trait planted**: The post contains at least one theme, opinion, or technical insight that future posts can reference or build on
+- [ ] **Excerpt survives selection**: The excerpt is compelling and specific -- not generic filler
+- [ ] **Practitioner tone**: The voice is experience-driven, not tutorial-driven
+- [ ] **JSON schema matches**: All required fields present (`id`, `title`, `date`, `excerpt`, `url`, `content`)
+- [ ] **id is unique**: No collision with existing post IDs in the array
+- [ ] **id is kebab-cased**: Lowercase, hyphen-separated
+- [ ] **date format correct**: Uses `"Month Day, Year"` format
+- [ ] **url pattern correct**: Matches `posts/post.html?id={id}`
+- [ ] **content array valid**: Each element is a string; headings use `═══` format; bullets use `•`
+- [ ] **New post is first**: Inserted at index 0 of the `posts` array
