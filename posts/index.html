@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="All blog posts by Reza, iOS Engineer since 2016.">
+    <title>ALL POSTS | REZA'S TECH BLOG</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body class="text-white font-mono flex flex-col min-h-screen">
+    
+    <!-- Main Container -->
+    <div class="flex-1">
+        
+        <!-- Navigation Bar -->
+        <nav class="mx-4 mt-4 dos-border p-3 bg-black bg-opacity-40" style="border-color: var(--color-bright-yellow);">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="font-mono text-sm text-dos-yellow hover:text-dos-green">
+                    <span class="text-dos-green">►</span> BACK TO HOME
+                </a>
+                <span class="text-dos-gray text-xs">ARCHIVE</span>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="px-4 mt-6">
+            
+            <!-- Posts Archive Header -->
+            <div class="dos-border p-1 bg-black bg-opacity-30 mb-6">
+                <div class="dos-window-header">
+                    <h1 class="dos-window-header__title text-lg">
+                        ═══ ALL POSTS ═══
+                    </h1>
+                </div>
+                <div class="dos-window-content">
+                    <p class="text-dos-gray text-sm mb-2">
+                        <span class="text-dos-yellow">►</span> Complete archive of all blog posts
+                    </p>
+                    <p id="posts-count" class="text-dos-cyan text-xs">
+                        <!-- Loaded dynamically -->
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Posts List -->
+            <div class="dos-border p-1 bg-black bg-opacity-30">
+                <div class="dos-window-header">
+                    <h2 class="dos-window-header__title">
+                        ENTRIES
+                    </h2>
+                </div>
+                
+                <div id="posts-archive-container" class="dos-window-content text-dos-gray">
+                    <!-- Posts will be loaded dynamically from posts.json -->
+                    <div class="text-center py-8">
+                        <span class="blink text-dos-yellow">Loading posts...</span>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        
+    </div>
+    
+    <!-- Footer / Status Bar - Always at bottom -->
+    <footer class="mt-auto">
+        <!-- DOS Command Line Style -->
+        <div class="mx-4 mb-4 dos-border p-4 bg-black bg-opacity-50">
+            <div class="font-mono text-xs text-dos-green">
+                <p id="footer-banner" class="mb-2"><!-- Loaded from content.json --></p>
+                <p id="footer-copyright" class="text-dos-gray"><!-- Loaded from content.json --></p>
+            </div>
+        </div>
+        
+        <!-- Bottom Status Bar -->
+        <div class="status-bar text-center">
+            <span>Press F1 for Help</span>
+            <span class="mx-8">|</span>
+            <span>POSTS ARCHIVE <span class="blink">▌</span></span>
+        </div>
+    </footer>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Inline constants for posts page (paths adjusted for subdirectory) -->
+    <script>
+        // Override paths for subdirectory location
+        const DATA_PATHS = {
+            CONTENT: '../data/content.json',
+            POSTS: '../data/posts.json',
+            LINKS: '../data/links.json',
+            GREETINGS: '../data/greetings.json'
+        };
+        
+        // DOS Color Palette
+        const COLORS = {
+            NAVY_BLUE: '#000080',
+            WHITE: '#FFFFFF',
+            LIGHT_GRAY: '#AAAAAA',
+            CYAN: '#00AAAA',
+            BRIGHT_YELLOW: '#FFFF55',
+            LIME_GREEN: '#55FF55',
+            BLACK: '#000000'
+        };
+        
+        // Selectors for posts page
+        const SELECTORS = {
+            POSTS_ARCHIVE_CONTAINER: '#posts-archive-container',
+            POSTS_COUNT: '#posts-count',
+            FOOTER_BANNER: '#footer-banner',
+            FOOTER_COPYRIGHT: '#footer-copyright'
+        };
+        
+        // CSS Classes
+        const CSS_CLASSES = {
+            DOS_BUTTON: 'dos-button'
+        };
+    </script>
+    
+    <!-- Posts page specific loader -->
+    <script>
+        /**
+         * PostsArchiveRenderer - Creates archive post elements
+         */
+        const PostsArchiveRenderer = {
+            /**
+             * Create archive post entry
+             * @param {Object} post - Post data
+             * @param {number} index - Post index
+             * @param {number} totalPosts - Total number of posts
+             * @returns {jQuery} Complete post element
+             */
+            createPostEntry: function(post, index, totalPosts) {
+                const $postDiv = $('<div>')
+                    .addClass('mb-6 pb-5')
+                    .css('border-bottom', index < totalPosts - 1 ? '1px dashed ' + COLORS.LIGHT_GRAY : 'none');
+                
+                // Post number badge
+                const $badge = $('<span>')
+                    .css({
+                        'background-color': COLORS.CYAN,
+                        'color': COLORS.NAVY_BLUE,
+                        'padding': '2px 8px',
+                        'margin-right': '10px',
+                        'font-weight': 'bold',
+                        'font-size': '0.75em'
+                    })
+                    .text('#' + (totalPosts - index));
+                
+                // Title with date
+                const $title = $('<h3>')
+                    .addClass('font-mono font-bold text-base mb-3')
+                    .css('color', COLORS.WHITE)
+                    .append($badge)
+                    .append(post.title);
+                
+                // Date line
+                const $date = $('<p>')
+                    .addClass('text-xs mb-2')
+                    .css('color', COLORS.BRIGHT_YELLOW)
+                    .text('📅 ' + post.date);
+                
+                // Excerpt
+                const $excerpt = $('<p>')
+                    .addClass('text-sm leading-relaxed mb-4')
+                    .css('color', COLORS.LIGHT_GRAY)
+                    .text(post.excerpt);
+                
+                // Read button - use post ID with query parameter
+                const postUrl = 'post.html?id=' + post.id;
+                const $button = $('<a>')
+                    .attr('href', postUrl)
+                    .addClass(CSS_CLASSES.DOS_BUTTON + ' text-xs')
+                    .css({
+                        'padding': '6px 16px',
+                        'display': 'inline-block'
+                    })
+                    .text('► READ THIS POST');
+                
+                return $postDiv.append($title, $date, $excerpt, $button);
+            },
+            
+            /**
+             * Render all posts to archive container
+             * @param {Array} posts - Array of post objects
+             */
+            renderArchive: function(posts) {
+                const $container = $(SELECTORS.POSTS_ARCHIVE_CONTAINER);
+                $container.empty();
+                
+                if (posts.length === 0) {
+                    $container.html('<p class="text-center py-8 text-dos-gray">No posts found.</p>');
+                    return;
+                }
+                
+                // Update posts count
+                $(SELECTORS.POSTS_COUNT).text('Total entries: ' + posts.length + ' post(s)');
+                
+                // Render each post
+                posts.forEach((post, index) => {
+                    const $postElement = this.createPostEntry(post, index, posts.length);
+                    $container.append($postElement);
+                });
+            }
+        };
+        
+        /**
+         * Load posts archive content
+         */
+        function loadPostsArchive() {
+            // Load posts and content in parallel
+            $.when(
+                $.getJSON(DATA_PATHS.POSTS),
+                $.getJSON(DATA_PATHS.CONTENT)
+            ).done(function(postsResponse, contentResponse) {
+                const posts = postsResponse[0];
+                const content = contentResponse[0];
+                
+                // Render posts
+                PostsArchiveRenderer.renderArchive(posts.posts);
+                
+                // Render footer
+                $(SELECTORS.FOOTER_BANNER).text(content.footer.banner);
+                $(SELECTORS.FOOTER_COPYRIGHT).text(content.footer.copyright);
+                
+            }).fail(function() {
+                $(SELECTORS.POSTS_ARCHIVE_CONTAINER).html(
+                    '<p class="text-center py-8 text-dos-yellow">Error loading posts. Please try again.</p>'
+                );
+                console.error('Failed to load data files');
+            });
+        }
+        
+        // Initialize on document ready
+        $(document).ready(function() {
+            loadPostsArchive();
+        });
+    </script>
+</body>
+</html>

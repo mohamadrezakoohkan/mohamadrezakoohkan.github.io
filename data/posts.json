@@ -1,16 +1,45 @@
 {
   "posts": [
     {
+      "id": "welcome",
       "title": "Welcome to My Blog",
       "date": "February 4, 2026",
       "excerpt": "First post on this new site. Building a personal blog with a retro aesthetic inspired by the early web days. Clean, simple, functional.",
-      "url": "posts/welcome.html"
+      "url": "posts/post.html?id=welcome",
+      "content": [
+        "Welcome to my corner of the internet! I'm Reza, an iOS Engineer since 2016, and this is my personal blog where I share thoughts on technology, engineering, and interesting findings.",
+        "I decided to build this blog with a retro aesthetic inspired by the early web days. No fancy frameworks, no build steps, no npm packages to maintain. Just plain HTML, CSS, and a sprinkle of JavaScript.",
+        "═══ WHY RETRO? ═══",
+        "There's something beautiful about the simplicity of 90s web design. Back then, websites were about content first. No cookie banners, no newsletter popups, no autoplaying videos. Just information, clearly presented.",
+        "This blog is my attempt to capture that spirit while still being functional and readable on modern devices.",
+        "═══ WHAT TO EXPECT ═══",
+        "I'll be writing about iOS engineering, software architecture, and the occasional deep-dive into interesting technical problems I encounter. Having shipped over 10,000 releases for different apps, I've seen a lot of patterns—both good and bad.",
+        "Stay tuned, and thanks for visiting!"
+      ]
     },
     {
+      "id": "90s-web",
       "title": "The Beauty of Simple Web Design",
       "date": "February 3, 2026",
       "excerpt": "Thoughts on why minimalist web design still works. Sometimes less really is more. No frameworks, no build steps, just HTML and CSS.",
-      "url": "posts/90s-web.html"
+      "url": "posts/post.html?id=90s-web",
+      "content": [
+        "The modern web is bloated. A simple blog post often requires megabytes of JavaScript, dozens of HTTP requests, and a small data center to render. This got me thinking: why?",
+        "═══ THE 90S HAD IT RIGHT ═══",
+        "When the web was young, constraints bred creativity. Limited bandwidth meant every byte counted. Limited browser capabilities meant focusing on what mattered: content.",
+        "A typical 90s webpage was:",
+        "• Fast to load (even on a 56k modem)",
+        "• Easy to navigate",
+        "• Focused on content",
+        "• Accessible by default",
+        "═══ MODERN BLOAT ═══",
+        "Today's average webpage is over 2MB. That's larger than the entire game DOOM (1993). Think about that for a moment.",
+        "We've traded simplicity for complexity, content for tracking scripts, speed for analytics. The user experience often suffers.",
+        "═══ FINDING BALANCE ═══",
+        "I'm not suggesting we abandon all progress. Modern CSS gives us responsive design. JavaScript enables interactivity. But we should be intentional about what we add.",
+        "This blog uses Tailwind via CDN and a bit of jQuery. That's it. No React, no webpack, no node_modules folder with 500MB of dependencies.",
+        "Sometimes, less really is more."
+      ]
     }
   ]
 }

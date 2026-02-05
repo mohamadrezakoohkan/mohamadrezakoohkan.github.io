@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog post by Reza, iOS Engineer since 2016.">
+    <title id="page-title">Loading... | REZA'S TECH BLOG</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body class="text-white font-mono flex flex-col min-h-screen">
+    
+    <!-- Main Container -->
+    <div class="flex-1">
+        
+        <!-- Navigation Bar -->
+        <nav class="mx-4 mt-4 dos-border p-3 bg-black bg-opacity-40" style="border-color: var(--color-bright-yellow);">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="../index.html" class="font-mono text-sm text-dos-yellow hover:text-dos-green">
+                        <span class="text-dos-green">►</span> HOME
+                    </a>
+                    <span class="text-dos-gray">|</span>
+                    <a href="./index.html" class="font-mono text-sm text-dos-cyan hover:text-dos-green">
+                        ALL POSTS
+                    </a>
+                </div>
+                <span id="nav-date" class="text-dos-gray text-xs"><!-- Loaded dynamically --></span>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="px-4 mt-6">
+            
+            <!-- Post Container -->
+            <article class="dos-border p-1 bg-black bg-opacity-30 mb-6">
+                <div class="dos-window-header">
+                    <h1 id="post-title" class="dos-window-header__title text-lg">
+                        <!-- Loaded dynamically -->
+                    </h1>
+                </div>
+                
+                <div class="dos-window-content">
+                    <!-- Post Meta -->
+                    <div class="mb-4 pb-3" style="border-bottom: 1px dashed var(--color-light-gray);">
+                        <p id="post-date" class="text-dos-yellow text-sm mb-1">
+                            <!-- Loaded dynamically -->
+                        </p>
+                        <p class="text-dos-gray text-xs">
+                            By <span class="text-dos-cyan">Reza</span> • iOS Engineer
+                        </p>
+                    </div>
+                    
+                    <!-- Post Content -->
+                    <div id="post-content" class="text-dos-gray leading-relaxed">
+                        <!-- Loading state -->
+                        <div class="text-center py-8">
+                            <span class="blink text-dos-yellow">Loading content...</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Post Footer -->
+                    <div class="mt-6 pt-4" style="border-top: 2px solid var(--color-cyan);">
+                        <p class="text-dos-cyan text-xs mb-3">
+                            ═══ END OF POST ═══
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="./index.html" class="dos-button text-xs" style="padding: 6px 16px;">
+                                ◄ ALL POSTS
+                            </a>
+                            <a href="../index.html" class="dos-button text-xs" style="padding: 6px 16px; background: var(--color-cyan);">
+                                HOME
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Post Navigation -->
+            <div id="post-navigation" class="dos-border p-1 bg-black bg-opacity-30 mb-6">
+                <div class="dos-window-header">
+                    <h2 class="dos-window-header__title text-sm">
+                        MORE POSTS
+                    </h2>
+                </div>
+                <div id="other-posts" class="dos-window-content">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+            
+        </main>
+        
+    </div>
+    
+    <!-- Footer / Status Bar - Always at bottom -->
+    <footer class="mt-auto">
+        <!-- DOS Command Line Style -->
+        <div class="mx-4 mb-4 dos-border p-4 bg-black bg-opacity-50">
+            <div class="font-mono text-xs text-dos-green">
+                <p id="footer-banner" class="mb-2"><!-- Loaded from content.json --></p>
+                <p id="footer-copyright" class="text-dos-gray"><!-- Loaded from content.json --></p>
+            </div>
+        </div>
+        
+        <!-- Bottom Status Bar -->
+        <div class="status-bar text-center">
+            <span>Press F1 for Help</span>
+            <span class="mx-8">|</span>
+            <span>READING POST <span class="blink">▌</span></span>
+        </div>
+    </footer>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Post Viewer Script -->
+    <script>
+        /**
+         * Constants for post viewer
+         */
+        const DATA_PATHS = {
+            CONTENT: '../data/content.json',
+            POSTS: '../data/posts.json'
+        };
+        
+        const COLORS = {
+            NAVY_BLUE: '#000080',
+            WHITE: '#FFFFFF',
+            LIGHT_GRAY: '#AAAAAA',
+            CYAN: '#00AAAA',
+            BRIGHT_YELLOW: '#FFFF55',
+            LIME_GREEN: '#55FF55',
+            BLACK: '#000000'
+        };
+        
+        /**
+         * Get URL parameter by name
+         * @param {string} name - Parameter name
+         * @returns {string|null} Parameter value
+         */
+        function getUrlParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        /**
+         * Find post by ID
+         * @param {Array} posts - Array of posts
+         * @param {string} id - Post ID
+         * @returns {Object|null} Post object or null
+         */
+        function findPostById(posts, id) {
+            return posts.find(post => post.id === id) || null;
+        }
+        
+        /**
+         * Render post content
+         * @param {Object} post - Post data
+         */
+        function renderPost(post) {
+            // Update page title
+            document.title = post.title + ' | REZA\'S TECH BLOG';
+            $('#page-title').text(post.title + ' | REZA\'S TECH BLOG');
+            
+            // Update post header
+            $('#post-title').text(post.title);
+            $('#post-date').text('📅 ' + post.date);
+            $('#nav-date').text(post.date);
+            
+            // Render content paragraphs
+            const $contentContainer = $('#post-content');
+            $contentContainer.empty();
+            
+            post.content.forEach(function(paragraph) {
+                // Check if it's a heading (starts with ═══)
+                if (paragraph.startsWith('═══')) {
+                    $('<h3>')
+                        .addClass('font-bold text-base my-4')
+                        .css('color', COLORS.CYAN)
+                        .text(paragraph)
+                        .appendTo($contentContainer);
+                }
+                // Check if it's a list item (starts with •)
+                else if (paragraph.startsWith('•')) {
+                    $('<p>')
+                        .addClass('text-sm ml-4 mb-1')
+                        .css('color', COLORS.LIME_GREEN)
+                        .text(paragraph)
+                        .appendTo($contentContainer);
+                }
+                // Regular paragraph
+                else {
+                    $('<p>')
+                        .addClass('text-sm mb-4')
+                        .css('color', COLORS.LIGHT_GRAY)
+                        .text(paragraph)
+                        .appendTo($contentContainer);
+                }
+            });
+        }
+        
+        /**
+         * Render other posts (excluding current)
+         * @param {Array} posts - All posts
+         * @param {string} currentId - Current post ID
+         */
+        function renderOtherPosts(posts, currentId) {
+            const $container = $('#other-posts');
+            $container.empty();
+            
+            const otherPosts = posts.filter(post => post.id !== currentId);
+            
+            if (otherPosts.length === 0) {
+                $container.html('<p class="text-dos-gray text-sm">No other posts available.</p>');
+                return;
+            }
+            
+            otherPosts.forEach(function(post) {
+                const $link = $('<a>')
+                    .attr('href', 'post.html?id=' + post.id)
+                    .addClass('block mb-2 text-sm')
+                    .css('color', COLORS.BRIGHT_YELLOW)
+                    .html('<span class="text-dos-green">►</span> ' + post.title + ' <span class="text-dos-gray">(' + post.date + ')</span>');
+                
+                $container.append($link);
+            });
+        }
+        
+        /**
+         * Show error state
+         * @param {string} message - Error message
+         */
+        function showError(message) {
+            $('#post-title').text('Post Not Found');
+            $('#post-content').html(
+                '<div class="text-center py-8">' +
+                '<p class="text-dos-yellow mb-4">' + message + '</p>' +
+                '<a href="./index.html" class="dos-button text-xs">VIEW ALL POSTS</a>' +
+                '</div>'
+            );
+            $('#post-navigation').hide();
+        }
+        
+        /**
+         * Load and render post
+         */
+        function loadPost() {
+            const postId = getUrlParam('id');
+            
+            if (!postId) {
+                showError('No post ID specified. Please select a post from the archive.');
+                return;
+            }
+            
+            // Load posts and content
+            $.when(
+                $.getJSON(DATA_PATHS.POSTS),
+                $.getJSON(DATA_PATHS.CONTENT)
+            ).done(function(postsResponse, contentResponse) {
+                const posts = postsResponse[0].posts;
+                const content = contentResponse[0];
+                
+                // Find the requested post
+                const post = findPostById(posts, postId);
+                
+                if (!post) {
+                    showError('Post "' + postId + '" not found.');
+                    return;
+                }
+                
+                // Render the post
+                renderPost(post);
+                
+                // Render other posts
+                renderOtherPosts(posts, postId);
+                
+                // Render footer
+                $('#footer-banner').text(content.footer.banner);
+                $('#footer-copyright').text(content.footer.copyright);
+                
+            }).fail(function() {
+                showError('Failed to load post. Please try again.');
+                console.error('Failed to load data files');
+            });
+        }
+        
+        // Initialize on document ready
+        $(document).ready(function() {
+            loadPost();
+        });
+    </script>
+</body>
+</html>

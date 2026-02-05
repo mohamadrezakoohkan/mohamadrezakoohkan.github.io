@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="404 - Page Not Found. You've wandered into uncharted territory.">
+    <title>404 ERROR | REZA'S TECH BLOG</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./favicon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    
+    <style>
+        /* Glitch animation for 404 text */
+        @keyframes glitch {
+            0%, 100% { text-shadow: 2px 0 #00AAAA, -2px 0 #FFFF55; }
+            25% { text-shadow: -2px 0 #00AAAA, 2px 0 #FFFF55; }
+            50% { text-shadow: 2px 2px #00AAAA, -2px -2px #FFFF55; }
+            75% { text-shadow: -2px -2px #00AAAA, 2px 2px #FFFF55; }
+        }
+        
+        .glitch-text {
+            animation: glitch 0.5s infinite;
+        }
+        
+        /* Scanline effect */
+        .scanlines::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+        }
+        
+        /* ASCII art styling */
+        .ascii-art {
+            font-size: 0.5rem;
+            line-height: 0.6rem;
+            letter-spacing: 0;
+        }
+        
+        @media (min-width: 640px) {
+            .ascii-art {
+                font-size: 0.75rem;
+                line-height: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-white font-mono flex flex-col min-h-screen">
+    
+    <!-- Main Container -->
+    <div class="flex-1 relative scanlines">
+        
+        <!-- Error Banner -->
+        <div class="mx-4 mt-4 dos-border p-3 bg-black bg-opacity-40" style="border-color: #FF5555;">
+            <div class="font-mono text-sm text-center">
+                <span class="text-red-400">⚠ ERROR:</span>
+                <span class="text-dos-yellow">The requested file was not found on this server.</span>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <main class="px-4 mt-6">
+            <div class="max-w-4xl mx-auto">
+                
+                <!-- 404 Display Box -->
+                <div class="dos-border p-1 bg-black bg-opacity-30 mb-6">
+                    <div class="dos-window-header">
+                        <h1 class="dos-window-header__title text-lg text-center">
+                            ═══ SYSTEM ERROR ═══
+                        </h1>
+                    </div>
+                    
+                    <div class="dos-window-content text-center py-8">
+                        <!-- ASCII Art Error -->
+                        <pre class="ascii-art text-dos-cyan mb-6 inline-block text-left">
+   ██╗  ██╗ ██████╗ ██╗  ██╗
+   ██║  ██║██╔═████╗██║  ██║
+   ███████║██║██╔██║███████║
+   ╚════██║████╔╝██║╚════██║
+        ██║╚██████╔╝     ██║
+        ╚═╝ ╚═════╝      ╚═╝
+                        </pre>
+    
+                        
+                        <!-- Error Message -->
+                        <div class="text-dos-gray text-sm sm:text-base space-y-3">
+                            <p class="text-dos-white text-lg font-bold">
+                                PAGE NOT FOUND
+                            </p>
+                            <p>
+                                <span class="text-dos-yellow">►</span> 
+                                The page you're looking for doesn't exist.
+                            </p>
+                            <p class="text-xs">
+                                You may have mistyped the address or the page may have moved.
+                            </p>
+                        </div>
+                        
+                        <!-- DOS-style error details -->
+                        <div class="mt-8 p-4 bg-black bg-opacity-50 text-left max-w-md mx-auto border border-dos-gray">
+                            <p class="text-dos-green text-xs mb-2">
+                                C:\REZA\BLOG\<span class="blink">_</span>
+                            </p>
+                            <p class="text-dos-gray text-xs">
+                                Bad command or file name.
+                            </p>
+                            <p class="text-dos-gray text-xs">
+                                Type 'HOME' to return to main directory.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Options -->
+                <div class="dos-border p-1 pb-4 bg-black bg-opacity-30 mb-6">
+                    <div class="dos-window-header">
+                        <h2 class="dos-window-header__title">
+                            WHERE TO GO?
+                        </h2>
+                    </div>
+                    
+                    <div class="dos-window-content" style="padding-bottom: 2rem;">
+                        <p class="text-dos-gray text-sm mb-4">
+                            <span class="text-dos-yellow">►</span> 
+                            Select a destination:
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <a href="./index.html" class="dos-button text-sm">
+                                ═══ GO HOME ═══
+                            </a>
+                            <a href="./posts/index.html" class="dos-button text-sm">
+                                ═══ VIEW POSTS ═══
+                            </a>
+                        </div>
+                        
+                        <!-- Fun retro links -->
+                        <div class="mt-6 pt-4 border-t border-dos-gray text-center">
+                            <p class="text-dos-cyan text-xs">
+                                <span class="text-dos-green">TIP:</span> 
+                                You can also press the BACK button on your browser.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+        
+    </div>
+    
+    <!-- Footer / Status Bar - Always at bottom -->
+    <footer class="mt-auto">
+        <!-- DOS Command Line Style -->
+        <div class="mx-4 mb-4 dos-border p-4 bg-black bg-opacity-50">
+            <div class="font-mono text-xs text-dos-green">
+                <p id="footer-banner" class="mb-2"><!-- Loaded from content.json --></p>
+                <p id="footer-copyright" class="text-dos-gray"><!-- Loaded from content.json --></p>
+            </div>
+        </div>
+        
+        <!-- Bottom Status Bar -->
+        <div class="status-bar text-center">
+            <span>ERROR 404</span>
+            <span class="mx-8">|</span>
+            <span>FILE NOT FOUND <span class="blink">▌</span></span>
+        </div>
+    </footer>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Minimal script to load footer content -->
+    <script>
+        $(document).ready(function() {
+            // Load footer content from content.json
+            $.getJSON('./data/content.json')
+                .done(function(content) {
+                    $('#footer-banner').text(content.footer.banner);
+                    $('#footer-copyright').text(content.footer.copyright);
+                })
+                .fail(function() {
+                    // Fallback if content can't be loaded
+                    $('#footer-banner').text('C:\\REZA\\BLOG> Ready.');
+                    $('#footer-copyright').text('© 2026 Reza. All rights reserved.');
+                });
+        });
+    </script>
+</body>
+</html>
