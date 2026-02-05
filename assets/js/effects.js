@@ -42,67 +42,77 @@ const SparkleEffect = {
 };
 
 /**
- * CursorSparkleEffect - Manages cursor trail sparkles
+ * IBMCursorEffect - IBM-style horizontal stripe cursor trail
  * Follows Single Responsibility Principle
  */
-const CursorSparkleEffect = {
+const IBMCursorEffect = {
     // Private state
-    _sparkleCount: 0,
-    _throttleRate: 3,
+    _moveCount: 0,
+    _throttleRate: 4,
+    _stripeCount: 4,
     
     /**
-     * Check if sparkle should be created (throttling)
-     * @returns {boolean} True if should create sparkle
+     * Check if effect should be created (throttling)
+     * @returns {boolean} True if should create effect
      */
-    shouldCreateSparkle: function() {
-        this._sparkleCount++;
-        return this._sparkleCount % this._throttleRate === 0;
+    shouldCreateEffect: function() {
+        this._moveCount++;
+        return this._moveCount % this._throttleRate === 0;
     },
     
     /**
-     * Get random color from palette
-     * @returns {string} Hex color code
-     */
-    getRandomColor: function() {
-        const randomIndex = Math.floor(Math.random() * SPARKLE_COLORS.length);
-        return SPARKLE_COLORS[randomIndex];
-    },
-    
-    /**
-     * Create sparkle element
+     * Create IBM stripe element
      * @param {number} x - X coordinate
      * @param {number} y - Y coordinate
-     * @param {string} color - Sparkle color
-     * @returns {jQuery} Sparkle element
+     * @param {number} offset - Vertical offset for stripe
+     * @returns {jQuery} Stripe element
      */
-    createSparkleElement: function(x, y, color) {
+    createStripeElement: function(x, y, offset) {
         return $('<div>')
             .css({
                 position: 'fixed',
-                left: x + 'px',
-                top: y + 'px',
-                width: '8px',
-                height: '8px',
-                backgroundColor: color,
-                borderRadius: '50%',
+                left: (x - 8) + 'px',
+                top: (y + offset) + 'px',
+                width: '16px',
+                height: '2px',
+                backgroundColor: COLORS.WHITE,
                 pointerEvents: 'none',
-                zIndex: 9999,
-                boxShadow: '0 0 10px ' + color
+                zIndex: 9999
             });
     },
     
     /**
-     * Animate and remove sparkle
-     * @param {jQuery} $sparkle - Sparkle element
-     * @param {number} startY - Starting Y position
+     * Create stripe group container
+     * @param {number} x - X coordinate
+     * @param {number} y - Y coordinate
+     * @returns {jQuery} Container with stripes
      */
-    animateSparkle: function($sparkle, startY) {
-        $sparkle.animate({
-            opacity: 0,
-            top: (startY - 20) + 'px',
-            width: '2px',
-            height: '2px'
-        }, ANIMATION.SPARKLE_FADE_DURATION, function() {
+    createStripeGroup: function(x, y) {
+        const $container = $('<div>').css({
+            position: 'fixed',
+            left: x + 'px',
+            top: y + 'px',
+            pointerEvents: 'none',
+            zIndex: 9999
+        });
+        
+        // Create horizontal stripes (IBM logo style)
+        for (let i = 0; i < this._stripeCount; i++) {
+            const $stripe = this.createStripeElement(0, 0, i * 4);
+            $container.append($stripe);
+        }
+        
+        return $container;
+    },
+    
+    /**
+     * Animate and remove stripe group
+     * @param {jQuery} $group - Stripe group element
+     */
+    animateStripeGroup: function($group) {
+        $group.animate({
+            opacity: 0
+        }, 400, function() {
             $(this).remove();
         });
     },
@@ -112,19 +122,18 @@ const CursorSparkleEffect = {
      * @param {Event} e - Mouse event
      */
     handleMouseMove: function(e) {
-        if (!this.shouldCreateSparkle()) {
+        if (!this.shouldCreateEffect()) {
             return;
         }
         
-        const color = this.getRandomColor();
-        const $sparkle = this.createSparkleElement(e.pageX, e.pageY, color);
+        const $stripeGroup = this.createStripeGroup(e.pageX, e.pageY);
         
-        $sparkle.appendTo('body');
-        this.animateSparkle($sparkle, e.pageY);
+        $stripeGroup.appendTo('body');
+        this.animateStripeGroup($stripeGroup);
     },
     
     /**
-     * Start cursor sparkle effect
+     * Start IBM cursor effect
      */
     start: function() {
         const self = this;
@@ -143,9 +152,9 @@ function initSparkleEffect() {
 }
 
 /**
- * Initialize cursor sparkle trail effect
+ * Initialize IBM-style cursor trail effect
  * Public API function
  */
 function initCursorSparkles() {
-    CursorSparkleEffect.start();
+    IBMCursorEffect.start();
 }

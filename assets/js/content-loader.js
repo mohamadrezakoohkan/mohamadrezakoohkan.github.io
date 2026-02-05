@@ -53,7 +53,6 @@ function loadContent() {
         const links = ContentLoader.extractData(linksResponse);
         
         // Render all sections using renderer functions
-        renderSiteTitle(content.site);
         renderSidebarAbout(content.sidebar);
         renderFooter(content.footer);
         renderSidebarLinks(links.links);

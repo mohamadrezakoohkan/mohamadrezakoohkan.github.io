@@ -91,13 +91,23 @@ const GreetingRenderer = {
         const cursor = '<span class="' + CSS_CLASSES.BLINK + '">▌</span>';
         const arrow = '<span class="' + CSS_CLASSES.BLINK + '" style="color: ' + COLORS.BRIGHT_YELLOW + ';">►</span>';
         
+        let html = '';
+        
+        // Description line (first)
+        html += '<div class="text-xs mb-2" style="color: ' + COLORS.LIGHT_GRAY + ';">';
+        html += '<span style="color: ' + COLORS.LIGHT_GRAY + ';">HERE IS REZA KOOHKAN PUBLIC SPACE, TO FREELY SPEAK & SHARE ABOUT AI, CODING, iOS AND TECH STUFF</span>';
+        html += '</div>';
+        
+        // IP greeting line (second)
         if (ip && ip !== DEFAULTS.IP_ADDRESS) {
             const message = '<span style="color: ' + COLORS.LIME_GREEN + '; font-family: ' + 'Courier New' + ', monospace;">' + 
                           greeting + ' ' + ip + '</span>';
-            return arrow + ' ' + message + ' ' + cursor;
+            html += arrow + ' ' + message + ' ' + cursor;
+        } else {
+            html += arrow + ' ' + cursor;
         }
         
-        return arrow + ' ' + cursor;
+        return html;
     },
     
     /**
