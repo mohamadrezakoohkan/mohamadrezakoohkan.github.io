@@ -6,125 +6,11 @@
     <meta name="description" content="Personal blog of a software engineer. Web 1.0 style since 2026.">
     <title>🌟 Home | Developer Blog 🌟</title>
     
-    <!-- Google Fonts - Pixel Art Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'courier': ['"Courier New"', 'monospace'],
-                        'arial': ['Arial', 'sans-serif'],
-                        'comic': ['"Comic Sans MS"', 'cursive'],
-                        'impact': ['Impact', 'fantasy'],
-                        'pixel': ['"Press Start 2P"', 'cursive'],
-                    }
-                }
-            }
-        }
-    </script>
     
-    <style>
-        /* IBM/DOS Color Palette */
-        :root {
-            --navy-blue: #000080;
-            --white: #FFFFFF;
-            --light-gray: #AAAAAA;
-            --cyan: #00AAAA;
-            --bright-yellow: #FFFF55;
-            --lime-green: #55FF55;
-        }
-        
-        /* DOS solid background */
-        body {
-            background-color: #000080;
-            font-family: 'Courier New', monospace;
-        }
-        
-        /* DOS link colors */
-        a {
-            color: #00AAAA;
-            text-decoration: underline;
-        }
-        a:visited {
-            color: #00AAAA;
-        }
-        a:hover {
-            color: #55FF55;
-            background-color: #00AAAA;
-            color: #000080;
-        }
-        
-        /* Blink animation for cursor */
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-        .blink {
-            animation: blink 1s infinite;
-        }
-        
-        /* DOS box borders */
-        .dos-border {
-            border: 2px solid #AAAAAA;
-            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
-        }
-        
-        .dos-border-double {
-            border: 4px double #AAAAAA;
-            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
-        }
-        
-        /* DOS button style */
-        .dos-button {
-            background: #FFFF55;
-            border: 2px solid #000000;
-            padding: 8px 16px;
-            color: #000080;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 2px 2px 0 #000000;
-        }
-        .dos-button:hover {
-            background: #55FF55;
-            color: #000080;
-        }
-        
-        /* Status bar at bottom */
-        .status-bar {
-            background-color: #AAAAAA;
-            color: #000080;
-            padding: 4px 8px;
-            font-size: 14px;
-        }
-        
-        /* ASCII decorations */
-        .ascii-header {
-            font-family: 'Courier New', monospace;
-            white-space: pre;
-            line-height: 1.2;
-            letter-spacing: 0;
-        }
-        
-        /* Visitor counter style */
-        .counter-digit {
-            background: #000000;
-            color: #FFFF55;
-            padding: 4px 8px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            border: 1px solid #AAAAAA;
-            display: inline-block;
-            margin: 0 2px;
-        }
-    </style>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body class="text-white font-mono flex flex-col min-h-screen">
     
@@ -132,17 +18,17 @@
     <div class="flex-1">
         
         <!-- DOS-style Welcome Message Banner -->
-        <div class="mx-4 mt-4 dos-border p-3 bg-black bg-opacity-40" style="border-color: #FFFF55;">
-            <div id="greeting-banner" class="font-mono text-sm" style="color: #55FF55;">
-                <span class="blink" style="color: #FFFF55;">►</span> <span class="blink">▌</span>
+        <div class="mx-4 mt-4 dos-border p-3 bg-black bg-opacity-40" style="border-color: var(--color-bright-yellow);">
+            <div id="greeting-banner" class="font-mono text-sm text-dos-green">
+                <span class="blink text-dos-yellow">►</span> <span class="blink">▌</span>
             </div>
         </div>
         
         <!-- Header Section -->
         <header class="mx-4 my-6 dos-border-double p-6 bg-black bg-opacity-30">
             <div class="text-center">
-                <h1 class="font-mono text-5xl font-bold tracking-wider" style="color: #FFFFFF;">
-                    REZA'S TECH BLOG
+                <h1 id="site-title" class="font-mono text-5xl font-bold tracking-wider text-dos-white">
+                    <!-- Loaded from content.json -->
                 </h1>
             </div>
         </header>
@@ -156,14 +42,14 @@
                     
                     <!-- About Me -->
                     <div class="dos-border p-1 bg-black bg-opacity-30">
-                        <div class="bg-white px-2 py-1 mb-3">
-                            <h3 class="font-mono font-bold text-sm" style="color: #000080;">ABOUT REZA</h3>
+                        <div class="dos-window-header">
+                            <h3 id="sidebar-about-title" class="dos-window-header__title"><!-- Loaded from content.json --></h3>
                         </div>
-                        <div class="p-3 text-xs" style="color: #AAAAAA;">
-                            <p id="sidebar-role" class="mb-2" style="color: #FFFFFF; font-weight: bold;"><!-- Loaded from content.json --></p>
+                        <div class="dos-window-content text-xs text-dos-gray">
+                            <p id="sidebar-role" class="mb-2 text-dos-white font-bold"><!-- Loaded from content.json --></p>
                             <p id="sidebar-experience" class="mb-2"><!-- Loaded from content.json --></p>
-                            <div class="border-t border-b py-2 my-2" style="border-color: #AAAAAA;">
-                                <p id="sidebar-achievement" class="text-xs leading-relaxed" style="color: #55FF55;">
+                            <div class="border-t border-b border-dos-gray py-2 my-2">
+                                <p id="sidebar-achievement" class="text-xs leading-relaxed text-dos-green">
                                     <!-- Loaded from content.json -->
                                 </p>
                             </div>
@@ -175,10 +61,10 @@
                     
                     <!-- Links Section -->
                     <div class="dos-border p-1 bg-black bg-opacity-30">
-                        <div class="bg-white px-2 py-1 mb-3">
-                            <h3 class="font-mono font-bold text-sm" style="color: #000080;">LINKS</h3>
+                        <div class="dos-window-header">
+                            <h3 class="dos-window-header__title">LINKS</h3>
                         </div>
-                        <div id="sidebar-links" class="p-3 space-y-1 text-xs">
+                        <div id="sidebar-links" class="dos-window-content space-y-1 text-xs">
                             <!-- Loaded from links.json -->
                         </div>
                     </div>
@@ -190,43 +76,14 @@
                     
                     <!-- Latest Posts -->
                     <div class="dos-border p-1 bg-black bg-opacity-30 mb-6">
-                        <div class="bg-white px-2 py-1">
-                            <h2 class="font-mono font-bold text-base" style="color: #000080;">
+                        <div class="dos-window-header">
+                            <h2 class="dos-window-header__title text-base">
                                 LATEST POSTS
                             </h2>
                         </div>
                         
-                        <div id="posts-container" class="p-4" style="color: #AAAAAA;">
+                        <div id="posts-container" class="dos-window-content text-dos-gray">
                             <!-- Posts will be loaded dynamically from posts.json -->
-                            
-                            <!-- Post 1 -->
-                            <div class="mb-5 pb-4 border-b" style="border-color: #AAAAAA;">
-                                <h3 class="font-bold text-base mb-2" style="color: #FFFFFF;">My New Pentium P75! | 1995-04-20</h3>
-                                <p class="text-sm leading-relaxed mb-3">My New Pentium P75! Is imply that i'm dining the LRUn1 1 New post summary on my chaft using an Un1rest installed position. Just got my hands on a brand new Pentium P75! Here are the specs and my first impressions...</p>
-                                <a href="#" class="dos-button text-xs px-3 py-1">READ MORE</a>
-                            </div>
-                            
-                            <!-- Post 2 -->
-                            <div class="mb-5 pb-4 border-b" style="border-color: #AAAAAA;">
-                                <h3 class="font-bold text-base mb-2" style="color: #FFFFFF;">Adventures in Netscape 1.1 | 1995-03-15</h3>
-                                <p class="text-sm leading-relaxed mb-3">Getting new it to any computency - on hle at herdwice's toud to post nodes to being give tooh and instead n structimes. Getting used to this new browser. The frames feature is revolutionary...</p>
-                                <a href="#" class="dos-button text-xs px-3 py-1">READ MORE</a>
-                            </div>
-                            
-                            <!-- Post 3 -->
-                            <div class="mb-5 pb-4 border-b" style="border-color: #AAAAAA;">
-                                <h3 class="font-bold text-base mb-2" style="color: #FFFFFF;">Setting Up Sound Blaster AWE32 | 1995-02-28</h3>
-                                <p class="text-sm leading-relaxed mb-3">Setting Up Sound Blaster AWE32 to manin you're using and in one of all setups. That's wthen skips, and cannot wnickers. Finally got my Sound Blaster working. IRQ 5, DMA 1. What a journey...</p>
-                                <a href="#" class="dos-button text-xs px-3 py-1">READ MORE</a>
-                            </div>
-                            
-                            <!-- Post 4 -->
-                            <div class="pb-2">
-                                <h3 class="font-bold text-base mb-2" style="color: #FFFFFF;">Why I Still Use IRC | 1995-02-10</h3>
-                                <p class="text-sm leading-relaxed mb-3">IRC is the best way to chat online. No fancy graphics, just pure text communication. Join me on #retrohackers on EFnet...</p>
-                                <a href="#" class="dos-button text-xs px-3 py-1">READ MORE</a>
-                            </div>
-                            
                         </div>
                     </div>
                     
@@ -241,9 +98,9 @@
     <footer class="mt-auto">
         <!-- DOS Command Line Style -->
         <div class="mx-4 mb-4 dos-border p-4 bg-black bg-opacity-50">
-            <div class="font-mono text-xs" style="color: #55FF55;">
+            <div class="font-mono text-xs text-dos-green">
                 <p id="footer-banner" class="mb-2"><!-- Loaded from content.json --></p>
-                <p id="footer-copyright" style="color: #AAAAAA;"><!-- Loaded from content.json --></p>
+                <p id="footer-copyright" class="text-dos-gray"><!-- Loaded from content.json --></p>
             </div>
         </div>
         
@@ -258,7 +115,8 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     
-    <!-- Load modules in order -->
+    <!-- Load modules in order (constants must be first) -->
+    <script src="./assets/js/constants.js"></script>
     <script src="./assets/js/greeting.js"></script>
     <script src="./assets/js/content-loader.js"></script>
     <script src="./assets/js/renderer.js"></script>

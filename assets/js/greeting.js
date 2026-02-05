@@ -1,64 +1,134 @@
 /**
  * greeting.js
  * Handles IP-based greeting with timezone detection
+ * Follows Single Responsibility and Dependency Inversion principles
  */
-
-const DEFAULT_IP = "";
-const ENDPOINT_URL = "https://api.ipgeolocation.io/getip";
 
 /**
- * Initialize IP-based greeting
+ * GreetingService - Encapsulates greeting business logic
+ * Follows Single Responsibility Principle
  */
-function initIPGreeting() {
-    updateIPGreeting(DEFAULT_IP);
-    getIP().then(updateIPGreeting);
-}
-
-/**
- * Fetch user's IP address
- */
-async function getIP() {
-    try {
-        const response = await fetch(ENDPOINT_URL);
-        const data = await response.json();
-        const ip = await data.ip;
-        return ip;
-    } catch (error) {
-        console.error('Failed to fetch IP:', error);
-        return DEFAULT_IP;
+const GreetingService = {
+    // Private state
+    _greetingsData: null,
+    
+    /**
+     * Load greetings data from JSON
+     * @returns {Promise} Promise that resolves when data is loaded
+     */
+    loadGreetingsData: async function() {
+        try {
+            const response = await fetch(DATA_PATHS.GREETINGS);
+            this._greetingsData = await response.json();
+        } catch (error) {
+            console.error('Failed to load greetings data:', error);
+            // Fallback data
+            this._greetingsData = { 
+                timezones: {}, 
+                default: DEFAULTS.GREETING 
+            };
+        }
+    },
+    
+    /**
+     * Get greeting for timezone
+     * @param {string} timeZone - IANA timezone identifier
+     * @returns {string} Localized greeting
+     */
+    getGreetingForTimezone: function(timeZone) {
+        if (!this._greetingsData) {
+            return DEFAULTS.GREETING;
+        }
+        
+        const greeting = this._greetingsData.timezones[timeZone] || this._greetingsData.default;
+        console.log('Timezone:', timeZone, '| Greeting:', greeting);
+        
+        return greeting;
+    },
+    
+    /**
+     * Get current user timezone
+     * @returns {string} IANA timezone identifier
+     */
+    getCurrentTimezone: function() {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
-}
+};
 
 /**
- * Update greeting with IP and timezone-based greeting
+ * IPService - Handles IP address fetching
+ * Follows Single Responsibility Principle
+ */
+const IPService = {
+    /**
+     * Fetch user's IP address
+     * @returns {Promise<string>} User's IP address
+     */
+    fetchIP: async function() {
+        try {
+            const response = await fetch(API.IP_GEOLOCATION);
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            console.error('Failed to fetch IP:', error);
+            return DEFAULTS.IP_ADDRESS;
+        }
+    }
+};
+
+/**
+ * GreetingRenderer - Handles greeting display
+ * Follows Single Responsibility Principle - only renders greeting
+ */
+const GreetingRenderer = {
+    /**
+     * Create greeting HTML with blinking cursors
+     * @param {string} greeting - Greeting text
+     * @param {string} ip - IP address
+     * @returns {string} HTML string
+     */
+    createGreetingHTML: function(greeting, ip) {
+        const cursor = '<span class="' + CSS_CLASSES.BLINK + '">▌</span>';
+        const arrow = '<span class="' + CSS_CLASSES.BLINK + '" style="color: ' + COLORS.BRIGHT_YELLOW + ';">►</span>';
+        
+        if (ip && ip !== DEFAULTS.IP_ADDRESS) {
+            const message = '<span style="color: ' + COLORS.LIME_GREEN + '; font-family: ' + 'Courier New' + ', monospace;">' + 
+                          greeting + ' ' + ip + '</span>';
+            return arrow + ' ' + message + ' ' + cursor;
+        }
+        
+        return arrow + ' ' + cursor;
+    },
+    
+    /**
+     * Render greeting to DOM
+     * @param {string} html - HTML to render
+     */
+    render: function(html) {
+        $(SELECTORS.GREETING_BANNER).html(html);
+    }
+};
+
+/**
+ * Update greeting banner with IP and timezone-based greeting
+ * @param {string} ip - IP address to display
  */
 function updateIPGreeting(ip) {
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const greeting = getGreeting(timeZone);
-    const $banner = $('#greeting-banner');
+    const timeZone = GreetingService.getCurrentTimezone();
+    const greeting = GreetingService.getGreetingForTimezone(timeZone);
+    const html = GreetingRenderer.createGreetingHTML(greeting, ip);
     
-    if (ip && ip !== DEFAULT_IP) {
-        $banner.html(`<span class="blink" style="color: #FFFF55;">►</span> <span style="color: #55FF55; font-family: 'Courier New', monospace;">${greeting} ${ip}</span> <span class="blink">▌</span>`);
-    } else {
-        $banner.html(`<span class="blink" style="color: #FFFF55;">►</span> <span class="blink">▌</span>`);
-    }
+    GreetingRenderer.render(html);
 }
 
 /**
- * Get greeting based on timezone
+ * Initialize IP-based greeting system
+ * Public API function
  */
-function getGreeting(timeZone) {
-    const timeZones = {
-        "Europe/Istanbul": "Merhaba",
-        "Europe/Madrid": "Hola",
-        "Europe/Rome": "Ciao",
-        "Europe/Paris": "Bonjour",
-        "Europe/Berlin": "Hallo",
-        "Asia/Tehran": "Salam aleykom",
-    };
-    
-    const result = timeZones[timeZone];
-    console.log('Timezone:', timeZone, '| Greeting:', result || 'Hi');
-    
-    return result || "Hi";
+function initIPGreeting() {
+    // Load greetings data first, then initialize
+    GreetingService.loadGreetingsData().then(function() {
+        updateIPGreeting(DEFAULTS.IP_ADDRESS);
+        IPService.fetchIP().then(updateIPGreeting);
+    });
 }

@@ -1,0 +1,164 @@
+/**
+ * styles.css
+ * Main stylesheet for retro DOS-style blog
+ * Follows BEM naming convention where applicable
+ */
+
+/* ============================================
+   CSS Variables - Single Source of Truth
+   ============================================ */
+:root {
+    /* Color Palette - IBM/DOS Theme */
+    --color-navy-blue: #000080;
+    --color-white: #FFFFFF;
+    --color-light-gray: #AAAAAA;
+    --color-cyan: #00AAAA;
+    --color-bright-yellow: #FFFF55;
+    --color-lime-green: #55FF55;
+    --color-black: #000000;
+    
+    /* Typography */
+    --font-mono: 'Courier New', monospace;
+    
+    /* Spacing */
+    --border-width-thin: 2px;
+    --border-width-thick: 4px;
+    --shadow-offset: 3px;
+    
+    /* Animation */
+    --animation-duration-blink: 1s;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+body {
+    background-color: var(--color-navy-blue);
+    font-family: var(--font-mono);
+}
+
+/* ============================================
+   Link Styles
+   ============================================ */
+a {
+    color: var(--color-cyan);
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--color-cyan);
+}
+
+a:hover {
+    background-color: var(--color-cyan);
+    color: var(--color-navy-blue);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes blink {
+    0%, 50% { 
+        opacity: 1; 
+    }
+    51%, 100% { 
+        opacity: 0; 
+    }
+}
+
+.blink {
+    animation: blink var(--animation-duration-blink) infinite;
+}
+
+/* ============================================
+   DOS Components
+   ============================================ */
+
+/* DOS Border - Standard */
+.dos-border {
+    border: var(--border-width-thin) solid var(--color-light-gray);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 rgba(0, 0, 0, 0.5);
+}
+
+/* DOS Border - Double */
+.dos-border-double {
+    border: var(--border-width-thick) double var(--color-light-gray);
+    box-shadow: calc(var(--shadow-offset) + 1px) calc(var(--shadow-offset) + 1px) 0 rgba(0, 0, 0, 0.5);
+}
+
+/* DOS Button */
+.dos-button {
+    background: var(--color-bright-yellow);
+    border: var(--border-width-thin) solid var(--color-black);
+    padding: 8px 16px;
+    color: var(--color-navy-blue);
+    font-family: var(--font-mono);
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 2px 2px 0 var(--color-black);
+    transition: background-color 0.2s ease;
+}
+
+.dos-button:hover {
+    background: var(--color-lime-green);
+    color: var(--color-navy-blue);
+}
+
+/* DOS Window Header */
+.dos-window-header {
+    background: var(--color-white);
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.dos-window-header__title {
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: var(--color-navy-blue);
+}
+
+/* DOS Window Content */
+.dos-window-content {
+    padding: 0.75rem;
+}
+
+/* Status Bar */
+.status-bar {
+    background-color: var(--color-light-gray);
+    color: var(--color-navy-blue);
+    padding: 4px 8px;
+    font-size: 14px;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.text-dos-white {
+    color: var(--color-white);
+}
+
+.text-dos-gray {
+    color: var(--color-light-gray);
+}
+
+.text-dos-cyan {
+    color: var(--color-cyan);
+}
+
+.text-dos-yellow {
+    color: var(--color-bright-yellow);
+}
+
+.text-dos-green {
+    color: var(--color-lime-green);
+}
+
+.bg-dos-navy {
+    background-color: var(--color-navy-blue);
+}
+
+.border-dos-gray {
+    border-color: var(--color-light-gray);
+}

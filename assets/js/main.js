@@ -15,14 +15,6 @@ $(function() {
     // Initialize all modules in correct order
     initIPGreeting();      // greeting.js
     loadContent();         // content-loader.js (also calls renderer.js functions)
-    initWelcomeAnimation(); // effects.js
-    initNavEffects();      // effects.js
     initSparkleEffect();   // effects.js - retro sparkle animations
     initCursorSparkles();  // effects.js - sparkle cursor trail!
-    
-    // Delay article animations until content is loaded
-    setTimeout(function() {
-        initArticleAnimations(); // effects.js
-        addNewBadges();          // effects.js - add NEW! badge to latest post
-    }, 500);
 });

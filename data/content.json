@@ -1,4 +1,7 @@
 {
+  "site": {
+    "title": "REZA'S TECH BLOG"
+  },
   "sidebar": {
     "aboutTitle": "ABOUT REZA",
     "role": "iOS Engineer",
@@ -8,6 +11,6 @@
   },
   "footer": {
     "banner": "*** MY CORNER OF THE WEB *** BEST VIEWED WITH WINDOWS XP OR HIGHER ***",
-    "copyright": "© 1998 REZA’S TECH BLOG — CC0 (NO RIGHTS RESERVED) - POWERED BY DIRECTX AND 56K MODEM"
+    "copyright": "© 1998 REZA'S TECH BLOG — CC0 (NO RIGHTS RESERVED) - POWERED BY DIRECTX AND 56K MODEM"
   }
 }

@@ -1,99 +1,86 @@
 /**
  * effects.js
  * Handles visual effects and animations
+ * Follows Single Responsibility Principle - each effect is isolated
  */
 
 /**
- * Fade in welcome message on page load with extra pizzazz
+ * SparkleEffect - Manages header sparkle animations
+ * Follows Single Responsibility Principle
  */
-function initWelcomeAnimation() {
-    $('.welcome-msg').hide().fadeIn(2000, function() {
-        // Add a subtle pulse effect after fade in
-        $(this).animate({ opacity: 0.9 }, 500)
-               .animate({ opacity: 1 }, 500);
-    });
-}
-
-/**
- * Animate the visitor counter with retro style
- */
-function initVisitorCounter(target) {
-    const $counter = $('#visitor-count');
-    if ($counter.length && target) {
-        // Add some random "magic" to the counter
-        const magicTarget = target + Math.floor(Math.random() * 42);
-        
-        $({ count: 0 }).animate({ count: magicTarget }, {
-            duration: 3000,
-            easing: 'swing',
-            step: function() {
-                $counter.text(String(Math.floor(this.count)).padStart(6, '0'));
-            },
-            complete: function() {
-                $counter.text(String(magicTarget).padStart(6, '0'));
-                // Make it glow after animation
-                $counter.animate({ opacity: 0.7 }, 300)
-                        .animate({ opacity: 1 }, 300);
-            }
-        });
-    }
-}
-
-/**
- * Add hover effects to navigation links
- */
-function initNavEffects() {
-    $('.nav-link').on('mouseenter', function() {
-        $(this).css('transform', 'scale(1.1) rotate(-2deg)');
-    }).on('mouseleave', function() {
-        $(this).css('transform', 'scale(1) rotate(0deg)');
-    });
-}
-
-/**
- * Add sparkle effect to random elements
- */
-function initSparkleEffect() {
-    setInterval(function() {
-        const sparkleElements = $('h1, h2, .retro-button');
-        const randomElement = sparkleElements.eq(Math.floor(Math.random() * sparkleElements.length));
-        
-        randomElement.animate({ opacity: 0.8 }, 200)
-                     .animate({ opacity: 1 }, 200);
-    }, 3000);
-}
-
-/**
- * Retro scrolling effect for articles
- */
-function initArticleAnimations() {
-    $('article').each(function(index) {
-        $(this).hide().delay(index * 200).fadeIn(800);
-    });
-}
-
-/**
- * Sparkle cursor trail (classic GeoCities effect!)
- * Creates colorful sparkles that follow your mouse
- */
-function initCursorSparkles() {
-    const colors = ['#FBD0A6', '#F37022', '#B11016', '#2ABA9E', '#007096'];
-    let sparkleCount = 0;
+const SparkleEffect = {
+    /**
+     * Get random element from collection
+     * @param {jQuery} $elements - jQuery collection
+     * @returns {jQuery} Random element
+     */
+    getRandomElement: function($elements) {
+        const randomIndex = Math.floor(Math.random() * $elements.length);
+        return $elements.eq(randomIndex);
+    },
     
-    $(document).on('mousemove', function(e) {
-        // Limit sparkle creation to avoid performance issues
-        if (sparkleCount % 3 !== 0) {
-            sparkleCount++;
-            return;
-        }
-        sparkleCount++;
-        
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const $sparkle = $('<div>')
+    /**
+     * Animate element with sparkle effect
+     * @param {jQuery} $element - Element to animate
+     */
+    animateSparkle: function($element) {
+        $element.animate({ opacity: 0.8 }, 200)
+                .animate({ opacity: 1 }, 200);
+    },
+    
+    /**
+     * Start sparkle effect on interval
+     */
+    start: function() {
+        const self = this;
+        setInterval(function() {
+            const $headers = $('h1, h2, h3');
+            const $randomHeader = self.getRandomElement($headers);
+            self.animateSparkle($randomHeader);
+        }, ANIMATION.SPARKLE_INTERVAL);
+    }
+};
+
+/**
+ * CursorSparkleEffect - Manages cursor trail sparkles
+ * Follows Single Responsibility Principle
+ */
+const CursorSparkleEffect = {
+    // Private state
+    _sparkleCount: 0,
+    _throttleRate: 3,
+    
+    /**
+     * Check if sparkle should be created (throttling)
+     * @returns {boolean} True if should create sparkle
+     */
+    shouldCreateSparkle: function() {
+        this._sparkleCount++;
+        return this._sparkleCount % this._throttleRate === 0;
+    },
+    
+    /**
+     * Get random color from palette
+     * @returns {string} Hex color code
+     */
+    getRandomColor: function() {
+        const randomIndex = Math.floor(Math.random() * SPARKLE_COLORS.length);
+        return SPARKLE_COLORS[randomIndex];
+    },
+    
+    /**
+     * Create sparkle element
+     * @param {number} x - X coordinate
+     * @param {number} y - Y coordinate
+     * @param {string} color - Sparkle color
+     * @returns {jQuery} Sparkle element
+     */
+    createSparkleElement: function(x, y, color) {
+        return $('<div>')
             .css({
                 position: 'fixed',
-                left: e.pageX + 'px',
-                top: e.pageY + 'px',
+                left: x + 'px',
+                top: y + 'px',
                 width: '8px',
                 height: '8px',
                 backgroundColor: color,
@@ -101,34 +88,64 @@ function initCursorSparkles() {
                 pointerEvents: 'none',
                 zIndex: 9999,
                 boxShadow: '0 0 10px ' + color
-            })
-            .appendTo('body');
-        
-        // Animate and remove sparkle
+            });
+    },
+    
+    /**
+     * Animate and remove sparkle
+     * @param {jQuery} $sparkle - Sparkle element
+     * @param {number} startY - Starting Y position
+     */
+    animateSparkle: function($sparkle, startY) {
         $sparkle.animate({
             opacity: 0,
-            top: (e.pageY - 20) + 'px',
+            top: (startY - 20) + 'px',
             width: '2px',
             height: '2px'
-        }, 800, function() {
+        }, ANIMATION.SPARKLE_FADE_DURATION, function() {
             $(this).remove();
         });
-    });
+    },
+    
+    /**
+     * Handle mouse move event
+     * @param {Event} e - Mouse event
+     */
+    handleMouseMove: function(e) {
+        if (!this.shouldCreateSparkle()) {
+            return;
+        }
+        
+        const color = this.getRandomColor();
+        const $sparkle = this.createSparkleElement(e.pageX, e.pageY, color);
+        
+        $sparkle.appendTo('body');
+        this.animateSparkle($sparkle, e.pageY);
+    },
+    
+    /**
+     * Start cursor sparkle effect
+     */
+    start: function() {
+        const self = this;
+        $(document).on('mousemove', function(e) {
+            self.handleMouseMove(e);
+        });
+    }
+};
+
+/**
+ * Initialize header sparkle effect
+ * Public API function
+ */
+function initSparkleEffect() {
+    SparkleEffect.start();
 }
 
 /**
- * Add random "NEW!" badges to recent content
+ * Initialize cursor sparkle trail effect
+ * Public API function
  */
-function addNewBadges() {
-    $('article').first().prepend(
-        $('<span>')
-            .addClass('inline-block font-pixel text-xs px-2 py-1 rounded blink')
-            .css({
-                'background-color': '#B11016',
-                'color': '#FBD0A6',
-                'border': '2px solid #F37022',
-                'box-shadow': '0 0 10px #F37022'
-            })
-            .text('NEW!')
-    );
+function initCursorSparkles() {
+    CursorSparkleEffect.start();
 }
