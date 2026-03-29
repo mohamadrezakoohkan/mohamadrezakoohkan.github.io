@@ -1,0 +1,153 @@
+---
+// src/layouts/Layout.astro
+// ─────────────────────────────────────────────────────────────
+// Base layout shared by every page on the site.
+//
+// It provides the <html> shell (doctype, <head>, <body>) and a
+// <slot /> where each page injects its own content.
+//
+// Props:
+//   title       – Populates <title> and the <h1> site header.
+//   description – Populates the <meta name="description"> tag
+//                 for SEO / social-media previews.
+// ─────────────────────────────────────────────────────────────
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+// Destructure props with a sensible default for `description`.
+const { title, description = "A minimal personal blog built with Astro" } =
+  Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <!-- ── Site header / navigation ──────────────────────── -->
+    <header>
+      <nav>
+        <!--
+          We use `import.meta.env.BASE_URL` so that every link
+          automatically respects the `base` value we set in
+          astro.config.mjs.  This is essential for GitHub Pages
+          where the site lives under a sub-path like /markdown/.
+        -->
+        <a href={`${import.meta.env.BASE_URL}`} class="site-title">My Blog</a>
+      </nav>
+    </header>
+
+    <!-- ── Main content area ─────────────────────────────── -->
+    <main>
+      <!--
+        <slot /> is Astro's content injection point.
+        Whatever markup a page puts inside <Layout>…</Layout>
+        will be rendered here.
+      -->
+      <slot />
+    </main>
+
+    <!-- ── Site footer ───────────────────────────────────── -->
+    <footer>
+      <p>&copy; {new Date().getFullYear()} My Blog. Built with Astro.</p>
+    </footer>
+  </body>
+</html>
+
+<!-- ── Scoped CSS ─────────────────────────────────────────── -->
+<!--
+  Astro scopes <style> blocks to the component they're defined
+  in by default, so these styles won't leak into child
+  components.  We use `is:global` only for truly global resets.
+-->
+<style is:global>
+  /* ── CSS Reset / Base ───────────────────────────────────── */
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    /* A calm, readable font stack */
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+    color: #1a1a1a;
+    background-color: #fdfdfd;
+  }
+
+  a {
+    color: #0056b3;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  code {
+    font-family: "Fira Code", "Cascadia Code", "Menlo", monospace;
+    background-color: #f0f0f0;
+    padding: 0.15em 0.35em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  pre {
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+    padding: 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  /* Reset the inline-code style inside <pre> blocks */
+  pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: 0.85em;
+  }
+</style>
+
+<style>
+  /* ── Layout-scoped styles ───────────────────────────────── */
+  header {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 2rem;
+  }
+
+  .site-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .site-title:hover {
+    text-decoration: none;
+    color: #0056b3;
+  }
+
+  main {
+    max-width: 720px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.85rem;
+    color: #666;
+  }
+</style>

@@ -1,0 +1,144 @@
+---
+// src/pages/blog/[...slug].astro
+// ─────────────────────────────────────────────────────────────
+// DYNAMIC POST ROUTE – Generates one HTML page per blog post.
+//
+// How dynamic routing works in Astro (static / SSG mode):
+//
+//   1. Astro calls `getStaticPaths()` at build time.  This
+//      function must return an array of `{ params, props }`
+//      objects – one for every page that should be generated.
+//
+//   2. For each returned object, Astro creates a static HTML
+//      file.  The `params.slug` value fills the `[...slug]`
+//      placeholder in the filename, so a slug of "hello-world"
+//      produces `/blog/hello-world/index.html`.
+//
+//   3. The `props` we return (the full collection entry) are
+//      available via `Astro.props` in the template below.
+//
+//   The `[...slug]` rest-parameter syntax means the route can
+//   match nested paths too (e.g. `2026/hello-world`), though
+//   our flat `src/content/blog/` folder produces simple slugs.
+// ─────────────────────────────────────────────────────────────
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+// ── getStaticPaths ──────────────────────────────────────────
+// Tell Astro which pages to build.  We iterate over every
+// entry in the "blog" collection and map each one to a
+// { params, props } pair.
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  return posts.map((post) => ({
+    // `post.id` is the filename without the extension,
+    // e.g. "hello-world" from "hello-world.md".
+    params: { slug: post.id },
+
+    // Pass the entire entry as props so we can access both
+    // the typed frontmatter (`data`) and render the content.
+    props: { post },
+  }));
+}
+
+// ── Page-level logic ────────────────────────────────────────
+// Destructure the `post` entry that getStaticPaths provided.
+const { post } = Astro.props;
+
+// `render()` converts the markdown body into an Astro component
+// called `Content` that we can drop into our template.
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+  <article class="post">
+    <!-- ── Post header ──────────────────────────────────── -->
+    <header class="post-header">
+      <h1>{post.data.title}</h1>
+      <time datetime={post.data.date.toISOString()}>
+        {
+          post.data.date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        }
+      </time>
+    </header>
+
+    <!-- ── Rendered markdown content ────────────────────── -->
+    <!--
+      <Content /> is the compiled markdown.  Astro converts
+      every heading, paragraph, code block, etc. into semantic
+      HTML at build time.  No client-side JS is involved.
+    -->
+    <div class="post-body">
+      <Content />
+    </div>
+
+    <!-- ── Back link ────────────────────────────────────── -->
+    <footer class="post-footer">
+      <a href={`${import.meta.env.BASE_URL}`}>&larr; Back to all posts</a>
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  /* ── Post article styles ─────────────────────────────────── */
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .post-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+  }
+  .post-header time {
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  /* ── Markdown body typography ────────────────────────────── */
+  .post-body {
+    /* These :global() selectors target elements rendered from
+       the markdown that live *inside* .post-body.  Without
+       :global(), Astro's scoping would ignore them because they
+       are injected by <Content />, not written in this file. */
+  }
+  .post-body :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .post-body :global(h3) {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .post-body :global(p) {
+    margin-bottom: 1rem;
+  }
+  .post-body :global(ul),
+  .post-body :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  .post-body :global(li) {
+    margin-bottom: 0.35rem;
+  }
+  .post-body :global(blockquote) {
+    border-left: 3px solid #0056b3;
+    padding-left: 1rem;
+    color: #555;
+    margin: 1.5rem 0;
+  }
+
+  /* ── Back link footer ────────────────────────────────────── */
+  .post-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+  }
+</style>
