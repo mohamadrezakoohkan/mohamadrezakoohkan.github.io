@@ -1,0 +1,85 @@
+---
+// Reader comments under a post, stored in this repo's GitHub Discussions
+// through giscus (https://giscus.app). Each post gets one discussion, matched
+// by its path ("posts/launch"), created when the first reader comments.
+//
+// Nothing is downloaded until the reader scrolls near the section.
+const giscus = {
+  repo: "mohamadrezakoohkan/mohamadrezakoohkan.github.io",
+  repoId: "R_kgDOHnV95A",
+  category: "Announcements",
+  // From https://giscus.app once Discussions is enabled on the repo.
+  // While this is empty, posts ship without a comments section.
+  categoryId: "",
+};
+const discussions = `https://github.com/${giscus.repo}/discussions`;
+---
+
+{giscus.categoryId && (
+  <section
+    class="comments"
+    id="comments"
+    aria-label="Comments"
+    data-repo={giscus.repo}
+    data-repo-id={giscus.repoId}
+    data-category={giscus.category}
+    data-category-id={giscus.categoryId}
+  >
+    <h2>Comments</h2>
+    <div class="giscus" />
+    <noscript>
+      <p>Comments need JavaScript. You can also read and reply on <a href={discussions}>GitHub Discussions</a>.</p>
+    </noscript>
+    <script is:inline>
+      (() => {
+        const section = document.getElementById("comments");
+        const root = document.documentElement;
+        const system = matchMedia("(prefers-color-scheme: dark)");
+        const theme = () => (root.dataset.theme || (system.matches ? "dark" : "light"));
+
+        const load = () => {
+          const s = document.createElement("script");
+          s.src = "https://giscus.app/client.js";
+          s.async = true;
+          s.crossOrigin = "anonymous";
+          Object.assign(s.dataset, {
+            repo: section.dataset.repo,
+            repoId: section.dataset.repoId,
+            category: section.dataset.category,
+            categoryId: section.dataset.categoryId,
+            mapping: "pathname",
+            strict: "1",
+            reactionsEnabled: "1",
+            emitMetadata: "0",
+            inputPosition: "top",
+            theme: theme(),
+            lang: "en",
+          });
+          section.appendChild(s);
+        };
+
+        // Keep the comments in step with the header's light/dark switch.
+        const sync = () => {
+          const frame = section.querySelector("iframe.giscus-frame");
+          if (!frame) return;
+          frame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme() } } }, "https://giscus.app");
+        };
+        new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+        system.addEventListener("change", sync);
+
+        // A reader arriving from a reply link (?giscus=… or #comments) wants them now.
+        const direct = location.hash === "#comments" || new URLSearchParams(location.search).has("giscus");
+        if (direct || !("IntersectionObserver" in window)) return load();
+        const seen = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((e) => e.isIntersecting)) return;
+            seen.disconnect();
+            load();
+          },
+          { rootMargin: "400px" },
+        );
+        seen.observe(section);
+      })();
+    </script>
+  </section>
+)}
