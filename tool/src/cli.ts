@@ -1,8 +1,9 @@
 #!/usr/bin/env -S node --experimental-strip-types --disable-warning=ExperimentalWarning
-import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
+import { computeLock, setFrontMatter } from "./lock.ts";
 import { examples, parse, STATUS_SYMBOL, words, type Status } from "./parse.ts";
-import { verify, type Report } from "./verify.ts";
+import { committedVersion, verify, type Report } from "./verify.ts";
 
 const HELP = `intent: read and verify .intent files
 
@@ -12,6 +13,11 @@ Usage:
       and check that goal and evals did not change within a version.
       Paths can be files or folders (default: current folder).
       Exits 1 if any test, judge or review failed (✗). Pending (○) never fails.
+  intent lock [--bump] <files...>
+      Write the lock hash of goal and evals into the front matter.
+      A version that is already committed can't be re-locked with a
+      different goal or evals: --bump raises the version, sets
+      supersedes, and locks the new version.
   intent check <files...>       Parse only; report syntax errors.
   intent words <file>           Print the fulfillment's word count.
   intent examples <file>        Parse every \`\`\`intent example inside the fulfillment.
@@ -29,7 +35,7 @@ function findIntentFiles(path: string): string[] {
   if (st.isFile()) return [path];
   const out: string[] = [];
   for (const entry of readdirSync(path, { withFileTypes: true })) {
-    if (SKIP.has(entry.name)) continue;
+    if (SKIP.has(entry.name) || (entry.isDirectory() && entry.name.startsWith("."))) continue;
     const full = join(path, entry.name);
     if (entry.isDirectory()) out.push(...findIntentFiles(full));
     else if (entry.name.endsWith(".intent")) out.push(full);
@@ -56,6 +62,7 @@ function printReport(r: Report) {
       console.log(paint("90", tail));
     }
   }
+  if (r.hash) console.log(`  ${mark(r.hash.status)} hash   ${paint("90", r.hash.detail)}`);
   if (r.lock) console.log(`  ${mark(r.lock.status)} lock   ${paint("90", r.lock.detail)}`);
 
   const count = (kind: string, status: Status) =>
@@ -110,6 +117,42 @@ function main(argv: string[]): number {
       );
       return blocked ? 1 : 0;
     }
+    case "lock": {
+      const bump = rest.includes("--bump");
+      const files = rest.filter((a) => a !== "--bump");
+      if (!files.length) break;
+      let bad = 0;
+      for (const path of files) {
+        try {
+          const raw = readFileSync(path, "utf8");
+          const file = parse(raw);
+          const hash = computeLock(file);
+          if (file.lock === hash && !bump) {
+            console.log(`${mark("pass")} ${path}: already locked`);
+            continue;
+          }
+          const published = committedVersion(resolve(path)) === file.version;
+          let updates: Record<string, string> = { lock: hash };
+          if (bump) {
+            const next = file.version + 1;
+            updates = { version: String(next), supersedes: `${file.name}@${file.version}`, lock: hash };
+          } else if (file.lock && published) {
+            bad++;
+            console.log(
+              `${mark("fail")} ${path}: v${file.version} is already committed, so its goal and evals can't change. Use --bump to make v${file.version + 1}.`,
+            );
+            continue;
+          }
+          writeFileSync(path, setFrontMatter(raw, updates));
+          const v = bump ? `v${file.version + 1}, supersedes ${file.name}@${file.version}, ` : "";
+          console.log(`${mark("pass")} ${path}: ${v}locked ${hash.slice(0, 19)}…`);
+        } catch (err) {
+          bad++;
+          console.log(`${mark("fail")} ${path}: ${(err as Error).message}`);
+        }
+      }
+      return bad ? 1 : 0;
+    }
     case "check": {
       let bad = 0;
       for (const file of rest) {
@@ -139,6 +182,7 @@ function main(argv: string[]): number {
       found.forEach((src, i) => {
         try {
           const f = parse(src);
+          if (f.lock && f.lock !== computeLock(f)) throw new Error(`lock doesn't match goal and evals (expected ${computeLock(f)})`);
           console.log(`${mark("pass")} example ${i + 1}: ${f.name} v${f.version}`);
         } catch (err) {
           bad++;

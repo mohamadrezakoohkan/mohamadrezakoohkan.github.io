@@ -1,27 +1,84 @@
 ---
 name: launch
+version: 2
+supersedes: launch@1
+title: Lock the goal. Every agent run meets it.
+lock: sha256:c548df8190d1235e61625739ae3e602010551ef92c40708483e20a65ae135635
+---
+
+# Goal
+A reader wants to write their own .intent file after reading this.
+
+# Evals
+- test: readable in under 5 minutes → [ "$(intent words "$INTENT_FILE")" -le 1100 ]
+- judge: a reader who finishes it could write a small .intent file of their own without opening the spec
+- review: it says what I actually think
+
+# Fulfillment
+## Introduction
+
+.intent is a file format for work that an agent carries out. An .intent file says what the work is for, describes the work, and says how to tell whether it succeeded. Any agent can read it and produce a result. Anyone can check that result.
+
+This document describes the format, the problem it is meant to solve, and the approach I have taken. It comes out of research into how we hand work to AI agents, and why so much of that work comes back almost right.
+
+## The problem
+
+Today, when we ask an agent to do something, we give it instructions. The agent reads them and produces a result. Run the same instructions again and the result is different: sometimes better, sometimes worse, rarely the same. Give them to a different agent and the difference grows.
+
+The instructions are not the problem. The problem is that nothing in the file says what the result is *for*. That knowledge lives in the head of whoever wrote it. When the instructions are edited, or the agent changes, the purpose drifts, and nobody notices, because nothing was written down to check against.
+
+## The idea
+
+An .intent file has a name, a goal and a fulfillment.
+
+- **The goal** is one plain sentence: the outcome the work must reach.
+- **The fulfillment** is the work itself: text, a design, a spec or code. An agent reads it and produces a result for the goal.
+- **The evals** say what a good result looks like. They are how anyone can tell that the result meets the goal.
+
+The goal and its evals are locked. The fulfillment is free. You can rewrite it, shorten it, or hand it to a better agent, and as long as every run still passes the evals, the file still means the same thing. That is the whole idea: lock what the work is for, and let everything else change.
+
+## Philosophy
+
+An .intent file should be readable by a person before it is run by a machine. It is plain text and opens in any editor. Someone who has never heard of the format should be able to read one and understand what it wants.
+
+A goal should fit in one sentence. If it doesn't, it is probably more than one goal.
+
+An eval should be something you would actually check, not a wish.
+
+## Two kinds of computers
+
+Some evals are commands that pass or fail. Any ordinary computer can run them. Others are plain sentences, such as "the flow feels effortless for a first-time player", and only a computer with an AI assistant can judge them, writing down its reason. Some need a person to sign off.
+
+A file doesn't need every kind of computer to be useful. An ordinary computer verifies what it can and marks the rest as pending. That is an honest state, not a failure.
+
+## Versions
+
+Within a version, the goal and evals never change. If the purpose changes, that is a new version, and it points back to the one it replaces. Over time, a file carries the history of how its goal evolved, and the old evals can be run against new work to catch the moment it stopped doing what it used to.
+
+This page is an example. Its first version had a different goal. You can still read it.
+
+## A small example
+
+````intent
+---
+name: weekly-summary
 version: 1
 ---
 
 # Goal
-A reader sees .intent as the middle ground between PDF and Markdown: the goal is locked, and the work stays free as long as it still meets it.
+Every Monday, the team learns last week's three most important changes in under a minute.
 
 # Evals
-- test: readable in under 5 minutes → [ "$(intent words "$INTENT_FILE")" -le 1100 ]
-- judge: a reader with no context can explain the middle ground in one sentence
-- review: it says what I actually think
+- test: exactly three items → [ "$(grep -c '^- ' summary.md)" -eq 3 ]
+- judge: the three changes are the ones that matter most to users, not just the most recent
+- review: the team lead agrees nothing important is missing
 
 # Fulfillment
-## The .intent vision
+Read last week's merged pull requests and release notes. Pick the three changes that affect users most. Write one sentence for each in summary.md, as a list.
+````
 
-Every era of digital documents froze one layer. PDF, born from John Warnock’s 1991 vision of “view and print anywhere,” froze appearance: a page looks identical on every machine, but its content is locked and hard to edit. Markdown, created by John Gruber in 2004, froze meaning: the source stays readable as plain text, while each renderer decides how it looks. Neither format captures what matters most in the age of AI agents: what the document is for.
+## What comes next
 
-.intent is the next step. It freezes intent. A .intent file combines PDF’s locking with Markdown’s readability, and adds something neither ever had: built-in verification.
+The format is open. The [specification](/spec) is on this site, along with a small reference tool that reads and verifies .intent files. Every page here, including this one, is an .intent file: its goal sits under the title, its evals are in the margin, and its source is one click away.
 
-Each file has a simple structure: a name, a version, an optional link to the version it supersedes, a locked goal, evals, and a fulfillment. The goal is one plain sentence stating the expected outcome. The evals are checks an agent runs on demand to verify the work meets the goal. Some are runnable tests with a hard pass or fail; others are plain sentences an AI judges with a written reason. The fulfillment is the actual work, whether text, design, spec, or code, and stays free to edit.
-
-The contract is strict. The goal and evals never change within a version. Changing either one requires a new version, which points back to the old one through supersedes, building a traceable history of how the goal evolved. Old evals can be rerun on new work to catch regressions.
-
-.intent is plain text readable in any editor, but it is its own format, opened and verified by .intent tools. It is aimed at any digital product, not just code.
-
-The goal of publishing is to follow Markdown’s path: an open spec, a small reference tool, real examples, and a launch story. PDF locked appearance, Markdown locked meaning, and .intent locks purpose.
+If there is work you hand to an agent more than once, try writing it as an .intent file. Start with one sentence: what is it for?

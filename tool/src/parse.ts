@@ -33,6 +33,10 @@ export interface IntentFile {
   name: string;
   version: number;
   supersedes?: string;
+  /** Optional headline for readers. Not locked; the goal is the contract. */
+  title?: string;
+  /** `sha256:<hex>` of goal and evals; see lock.ts. */
+  lock?: string;
   meta: Record<string, string>;
   goal: string;
   evals: Eval[];
@@ -103,6 +107,9 @@ export function parse(raw: string): IntentFile {
   if (!Number.isInteger(version) || version < 1) {
     throw new IntentParseError("front matter needs a version: a whole number, 1 or higher");
   }
+  if (meta.lock && !/^sha256:[0-9a-f]{64}$/.test(meta.lock)) {
+    throw new IntentParseError(`lock must look like sha256:<64 hex characters>`);
+  }
   const supersedes = meta.supersedes || undefined;
   if (supersedes && !/^[a-z0-9][a-z0-9._-]*@\d+$/.test(supersedes)) {
     throw new IntentParseError(`supersedes "${supersedes}" must look like name@version`);
@@ -171,6 +178,8 @@ export function parse(raw: string): IntentFile {
     name: meta.name,
     version,
     supersedes,
+    title: meta.title || undefined,
+    lock: meta.lock || undefined,
     meta,
     goal: goal.replace(/\s*\n\s*/g, " "),
     evals,

@@ -1,0 +1,16 @@
+---
+// Permanent URL for a superseded homepage: /v<n>
+import IntentPage from "../components/IntentPage.astro";
+import { getOldHome, type IntentPage as Page } from "../lib/intents";
+
+export function getStaticPaths() {
+  return getOldHome().map((page) => ({
+    params: { version: String(page.file.version) },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props as { page: Page };
+---
+
+<IntentPage page={page} title={`mohamadreza.com (v${page.file.version})`} />

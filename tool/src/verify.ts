@@ -1,6 +1,7 @@
 import { execFileSync, spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
+import { computeLock } from "./lock.ts";
 import { parse, resultFor, type Eval, type IntentFile, type Status } from "./parse.ts";
 
 export interface Outcome {
@@ -23,6 +24,9 @@ export interface Report {
   path: string;
   file?: IntentFile;
   error?: string;
+  /** The lock hash in the file matches its goal and evals. */
+  hash?: LockCheck;
+  /** Git history: goal and evals didn't change within a version. */
   lock?: LockCheck;
   outcomes: Outcome[];
   blocked: boolean;
@@ -51,6 +55,34 @@ function run(command: string, file: string) {
 }
 
 const norm = (s: string) => s.replace(/\s+/g, " ").trim();
+
+/** The file's lock hash must match its goal and evals. */
+export function checkHash(file: IntentFile): LockCheck {
+  const actual = computeLock(file);
+  if (!file.lock) return { status: "fail", detail: "no lock yet. Run: intent lock <file>" };
+  if (file.lock !== actual) {
+    return {
+      status: "fail",
+      detail: "goal or evals changed since they were locked. If that was intended, run: intent lock --bump <file>",
+    };
+  }
+  return { status: "pass", detail: `goal and evals match ${file.lock.slice(0, 19)}…` };
+}
+
+/** The version of the file at a git revision, or undefined if it isn't there. */
+export function committedVersion(path: string, rev = "HEAD"): number | undefined {
+  try {
+    const top = execFileSync("git", ["rev-parse", "--show-toplevel"], { cwd: dirname(path), encoding: "utf8" }).trim();
+    const raw = execFileSync("git", ["show", `${rev}:${relative(top, path)}`], {
+      cwd: top,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+    return parse(raw).version;
+  } catch {
+    return undefined;
+  }
+}
 
 /**
  * The contract: within a version, the goal and evals never change.
@@ -132,7 +164,8 @@ export function verify(pathArg: string, opts: VerifyOptions = {}): Report {
     };
   });
 
+  const hash = checkHash(file);
   const lock = checkLock(path, file, opts.against ?? "HEAD");
-  const blocked = outcomes.some((o) => o.blocks) || lock?.status === "fail";
-  return { path, file, lock, outcomes, blocked };
+  const blocked = outcomes.some((o) => o.blocks) || hash.status === "fail" || lock?.status === "fail";
+  return { path, file, hash, lock, outcomes, blocked };
 }

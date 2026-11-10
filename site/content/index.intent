@@ -1,16 +1,18 @@
 ---
 name: home
-version: 1
+version: 2
+lock: sha256:c0890e1d283f7d59a4d26d87293a94302310d3eb4dfb965a89c4033379f151b2
+supersedes: home@1
 ---
 
 # Goal
-Each post finds readers I've never met.
+Nothing I think about every day stays only in my head.
 
 # Evals
 - test: short enough to read in a minute → [ "$(intent words "$INTENT_FILE")" -le 250 ]
 - judge: a stranger landing here can pick a post to read within 10 seconds
 - review: it doesn't read like a template
-- watch: readers arrive from at least 5 sites I never shared on
+- watch: something new ships at least once a week, here or anywhere else on the internet
 
 # Fulfillment
-I write about .intent, file formats, AI agents and building software. Every post works like this page: a locked goal as the headline, evals in the margin, and the work itself free to change as long as the evals still pass. The raw file is always one click away.
+I'm Mohamadreza, a software engineer building repeatable digital experiences for humans. Assistive AI has never been this good for me! I can finally share my thoughts about the things I never built to perfection.

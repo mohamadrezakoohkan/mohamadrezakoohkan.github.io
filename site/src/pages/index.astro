@@ -1,7 +1,6 @@
 ---
 import IntentPage from "../components/IntentPage.astro";
 import { getPage, getPosts, summary } from "../lib/intents";
-import { marked } from "marked";
 
 const page = getPage("/");
 const posts = getPosts();
@@ -13,7 +12,7 @@ const posts = getPosts();
     <ol>
       {posts.map((post) => (
         <li>
-          <a href={post.url} set:html={marked.parseInline(post.file.goal, { async: false })} />
+          <a href={post.url} set:html={post.headlineHtml} />
           <span class="post-meta">{post.file.name} · {summary(post)}</span>
         </li>
       ))}

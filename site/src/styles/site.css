@@ -13,8 +13,9 @@
   color-scheme: light;
 }
 
+/* Dark follows the device unless the reader picked a theme with the header switch. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #16130f;
     --ink: #ece6dc;
     --muted: #a39888;
@@ -26,6 +27,33 @@
     --code-bg: #221e19;
     color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #16130f;
+  --ink: #ece6dc;
+  --muted: #a39888;
+  --rule: #342e27;
+  --accent: #e39470;
+  --pass: #86c493;
+  --fail: #f08d80;
+  --pending: #8f857a;
+  --code-bg: #221e19;
+  color-scheme: dark;
+}
+
+.theme-toggle {
+  font: inherit;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--muted);
 }
 
 *,
@@ -124,6 +152,43 @@ summary {
 .goal.long {
   font-size: clamp(1.45rem, 3.4vw, 1.85rem);
   line-height: 1.25;
+}
+.goal-line {
+  margin: 1.1rem 0 0;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.goal-line.previous {
+  border-left-color: var(--rule);
+  text-decoration: line-through;
+  text-decoration-color: var(--pending);
+}
+.goal-line.previous .goal-label {
+  color: var(--muted);
+  text-decoration: none;
+}
+.archived {
+  margin: 0 0 1.5rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--code-bg);
+  border-left: 3px solid var(--pending);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.goal-label {
+  display: block;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.15rem;
 }
 
 .hint {

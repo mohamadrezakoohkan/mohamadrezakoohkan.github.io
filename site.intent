@@ -1,10 +1,12 @@
 ---
 name: mohamadreza-com
-version: 1
+version: 2
+supersedes: mohamadreza-com@1
+lock: sha256:a21e280c203af099d8efce4e46c0c63bee79edc86d06d6544a608cf18068a0c5
 ---
 
 # Goal
-mohamadreza.com launches as the home of .intent, where every page is itself a verified .intent file and each post finds readers I've never met.
+mohamadreza.com launches as the home of .intent, where every page is itself a verified .intent file and nothing I think about every day stays only in my head.
 
 # Evals
 - test: the site builds → npm run build
@@ -13,7 +15,7 @@ mohamadreza.com launches as the home of .intent, where every page is itself a ve
 - test: CI runs Node 22 or newer → grep -Eq 'node-version: (2[2-9]|[3-9][0-9])' .github/workflows/deploy.yml
 - judge: a stranger landing on the homepage understands within 10 seconds that the page they are reading is itself an .intent file
 - judge: no eval, page or tool option names a specific AI provider or model
-- judge: the launch essay explains .intent as the middle ground between PDF and Markdown without needing the spec page
+- judge: the launch essay introduces .intent as a research result, so a reader understands it without needing the spec page
 - review: the site feels like mine, not a template
 - review: the launch essay says what I actually think, in my own words
 - watch: posts get readers from hosts I never shared them on
@@ -37,6 +39,12 @@ The syntax is flexible and open to more forms later. All of these are valid:
 - named: `- test: builds → npm run build` (the name is what readers see)
 - fenced block: a bullet with a name, followed by an indented ```sh block for longer scripts
 
+## The lock
+- Every file carries `lock: sha256:…`, a hash of its goal and evals, so a changed goal is detectable from the file alone, without git. Verify fails on a missing or mismatched lock.
+- `intent lock` writes it. A committed version can't be re-locked with a different goal or evals; `intent lock --bump` makes the next version.
+- The agent running a fulfillment treats goal and evals as read-only, so it can't reach the goal by weakening the test.
+- Not adopted: goal and evals in front matter (they stay readable sections), hashes in `supersedes`, pinned rubrics for judges.
+
 ## Results
 - Verdicts live in a fourth section, `# Results`, at the bottom of the file, with date and written reason per eval.
 - Like Fulfillment, Results is not locked: recording a verdict never requires a new version.
@@ -56,8 +64,8 @@ The syntax is flexible and open to more forms later. All of these are valid:
 
 ## Homepage
 - The homepage is a live .intent file.
-- Goal: "Each post finds readers I've never met."
-- Reach is a `watch:` eval, so a quiet week never blocks a deploy. It is measured with Cloudflare Web Analytics (script tag only, DNS and GitHub Pages unchanged). A nightly CI rebuild queries referrer hosts through Cloudflare's GraphQL API. Needs an API token as a GitHub secret.
+- Goal: "Nothing I think about every day stays only in my head." (v2; v1 was "Each post finds readers I've never met." and stays at /v1.)
+- Shipping cadence is a `watch:` eval (something new ships at least once a week, here or anywhere else), so a quiet week never blocks a deploy. Posts here can be counted from their dates; how to count things shipped elsewhere is still open.
 
 ## Post evals
 Posts mix four kinds of checks:
@@ -68,7 +76,8 @@ Posts mix four kinds of checks:
 
 ## Look
 - Personal editorial. Serif body text, evals as small monospace margin notes with ✓ / ✗ / ○ and the written reason.
-- The goal is the page's headline. The fulfillment is the body.
+- The headline is the file's `title` if it has one, with the locked goal shown right under it. Without a title, the goal is the headline. The fulfillment is the body.
+- Why: a goal is a contract, written to be checked, so it reads like a spec. A title is written for strangers who land on the page.
 - Mobile: margin notes collapse into a block under the goal.
 
 ## Topics beyond .intent
@@ -81,7 +90,8 @@ Format and spec design, AI agents and workflows, software engineering, personal 
   - `/site`: Astro 5, with a content loader that reads .intent files through `/tool`
 - Deploy stays GitHub Pages via `.github/workflows/deploy.yml`, adjusted to build the `/site` workspace. Bump Node 20 to 22.
 - Fix `site` in the Astro config to `https://mohamadreza.com`.
-- Readers download no JavaScript by default; the only exceptions are the source toggle and the analytics script.
+- Readers download almost no JavaScript: a few inline lines for the light/dark switch, plus the analytics script once it's enabled. "View source" works without JavaScript.
+- Theme follows the device by default; the header switch overrides it and is remembered in the browser.
 
 ## Launch day
 1. Homepage (.intent)
@@ -90,22 +100,10 @@ Format and spec design, AI agents and workflows, software engineering, personal 
 
 Examples gallery and an installable tool come after launch.
 
-## Launch essay draft
-Short and easy to read, not long or deep. Minimal goal and evals.
-
-Goal (draft, mine to finalise): "A reader sees .intent as the middle ground between PDF and Markdown: the goal is locked, and the work stays free as long as it still meets it."
-
-Evals (draft):
-- test: reading time ≤ 5 minutes
-- judge: a reader with no context can explain the middle ground in one sentence
-- review: it says what I actually think
-
-Proposed headings:
-1. Every era froze one layer
-2. The middle ground: lock the goal, free the work
-3. Evals: what it takes to meet the goal
-4. Two kinds of computers
-5. What comes next
+## Launch essay
+- v1 was the .intent vision essay, framed around PDF and Markdown. It stays readable at /posts/launch/v1.
+- v2 (title "Lock the goal. Every agent run meets it.") drops the PDF and Markdown history. It introduces .intent as a research result, in the plain, declarative voice of a format announcement: a file has a name, a goal and a fulfillment; an agent reads the fulfillment and produces a result for the goal; evals say what result counts.
+- It covers locking the goal while the work stays free, the two kinds of computers, and versions. Short and easy to read, with minimal evals.
 
 # Results
 Nothing built yet, so no verdicts recorded.
