@@ -55,6 +55,15 @@ Writing evals first sounds hard, but for me it turned out to be most of the job.
 
 And when an agent passes every eval and I still don't like the result, that isn't the agent's failure. My evals missed something. I fix them and bump the version. Over time the version history becomes a record of what I learned "done" really means.
 
-Some things I'm deliberately leaving open: how evals are written (scripts, rubrics, a person reading it), how the lock works (a hash is one way), what runs the file, and how strict versioning should be. Those depend on your work and your taste. I'd rather keep the core small enough to adopt in an afternoon and let the people using it shape the rest.
+## What I'm leaving open
 
-If you try it, I'd love to hear what you changed.
+I've kept the core small on purpose. Everything else is an open question, and these are the ones I most want other people to answer:
+
+- **How should evals be written?** Scripts with a hard pass or fail, rubrics an AI judges, a person reading the result? Which kind of "done" belongs to which?
+- **How should the lock work?** A hash is one way. What would make you trust that nobody quietly moved the goalposts?
+- **What runs the file?** A coding agent, a CI job, a scheduler, something that doesn't exist yet?
+- **How strict should versioning be?** Is every changed eval a new version, or only a changed goal?
+
+The right answers depend on your work and your taste. I'd rather keep the core small enough to adopt in an afternoon and let the people using it shape the rest.
+
+If you try it, tell me how you answered these. That's how the rest of .intent gets written.
