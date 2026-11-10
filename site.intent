@@ -106,4 +106,6 @@ Examples gallery and an installable tool come after launch.
 - It covers locking the goal while the work stays free, the two kinds of computers, and versions. Short and easy to read, with minimal evals.
 
 # Results
-Nothing built yet, so no verdicts recorded.
+- judge 1: ✓ 2026-11-10 — the homepage now says in its first lines that the page is itself an .intent file, with a link to the raw file and one to the spec
+- judge 2: ✓ 2026-11-10 — no published page, eval or intent CLI option names an AI provider or model. The only mention is in this file's own launch-day notes, which are not a published page
+- judge 3: ✓ 2026-11-10 — the launch post covers the four parts, the lock rule and one tiny example in plain words, and gives the open questions their own section that asks readers to answer them

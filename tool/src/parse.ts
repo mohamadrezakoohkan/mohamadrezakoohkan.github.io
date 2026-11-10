@@ -96,7 +96,7 @@ export function parse(raw: string): IntentFile {
     if (!line.trim() || line.trim().startsWith("#")) continue;
     const m = /^([A-Za-z][\w-]*):\s*(.*)$/.exec(line);
     if (!m) throw new IntentParseError(`expected "key: value" in front matter`, i + 1);
-    meta[m[1]] = m[2].trim().replace(/^["'](.*)["']$/, "$1");
+    meta[m[1]] = m[2].trim().replace(/^(["'])(.*)\1$/, "$2");
   }
 
   if (!meta.name) throw new IntentParseError("front matter needs a name");
@@ -245,10 +245,11 @@ function parseEvals(lines: string[], startLine: number): Eval[] {
     }
 
     if (!command && (kind === "test" || kind === "watch")) {
-      const split = text.split(ARROW);
-      if (split.length > 1) {
-        text = split[0].trim();
-        command = split.slice(1).join(" → ").trim();
+      // Split at the first arrow only; later arrows stay in the command as written.
+      const arrow = ARROW.exec(text);
+      if (arrow) {
+        command = text.slice(arrow.index + arrow[0].length).trim();
+        text = text.slice(0, arrow.index).trim();
       } else if (kind === "test") {
         command = text;
       }

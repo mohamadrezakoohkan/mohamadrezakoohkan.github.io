@@ -17,3 +17,8 @@ Nothing I think about every day stays only in my head.
 
 # Fulfillment
 I'm Mohamadreza, a software engineer building repeatable digital experiences for humans. Assistive AI has never been this good for me! I can finally share my thoughts about the things I never built to perfection.
+
+This page is itself an .intent file: its goal is locked, and the evals check that the page still meets it. [Read it raw](/index.intent) or see [how the format works](/spec).
+
+# Results
+- judge 1: ✓ 2026-11-10 — two clearly titled posts under a Posts heading, visible without scrolling on desktop. On a phone the evals block pushes the list about 1.3 screens down, so it takes one scroll

@@ -26,11 +26,25 @@ An .intent file is plain UTF-8 text. It has front matter, then three required se
 
 Section headings use a single `#`. Inside Fulfillment, use `##` and below. A `#` line inside a code block is not a heading.
 
+To read the sections exactly:
+
+- Treat `\r\n` and `\r` as line breaks, the same as `\n`.
+- A section heading is a line that starts with `# ` followed by the section name. The name ignores case (`# goal` is `# Goal`), and trailing `#` characters are dropped.
+- Any other `# ` heading is an error, and so is a section that appears twice, sections out of order, or any non-blank text between the front matter and `# Goal`.
+- A section holds every line after its heading until the next section heading or the end of the file.
+- Code blocks are fenced with three or more backticks or tildes, indented by at most three spaces. A fence closes at a line with the same character, at least as many of them, and nothing else after them. Lines inside a fence are never headings.
+
 ## Front matter
 
-The file starts with `---`, a few `key: value` lines, and a closing `---`.
+The file starts with `---`, a few `key: value` lines, and a closing `---`. The opening line may have spaces around it, but the closing line must be exactly `---`.
 
-- `name`, required: lowercase letters, digits, `.`, `_` or `-`.
+- A key starts with a letter and continues with letters, digits, `_` or `-`. The colon follows the key directly; the value is everything after it, trimmed.
+- If the value is wrapped in one pair of matching quotes, `"..."` or `'...'`, the quotes are removed: `title: "Who checks the checker?"` has the title `Who checks the checker?`. Nothing else is unescaped.
+- Blank lines and lines starting with `#` are ignored. Any other line that isn't `key: value` is an error.
+
+The keys an .intent file knows:
+
+- `name`, required: lowercase letters, digits, `.`, `_` or `-`, starting with a letter or digit.
 - `version`, required: a whole number, 1 or higher.
 - `supersedes`, optional: the version this one replaces, written `name@version`.
 - `lock`, required to verify: the hash of the goal and evals, written `sha256:<hex>`. See [The lock](#the-lock).
@@ -41,6 +55,8 @@ Other keys are allowed, and tools ignore keys they don't know.
 ## Goal
 
 One plain sentence. No lists, no second paragraph. The goal says what the work is *for*, not what it contains.
+
+The goal is the section's text, trimmed. It must not be empty or contain a blank line. A sentence that wraps over several lines is joined with single spaces.
 
 ## Evals
 
@@ -57,13 +73,21 @@ A `judge:` eval never names an AI provider or model. Whatever assistant the comp
 
 Every eval has a status: **✓** pass, **✗** fail, or **○** pending. Only ✗ blocks. A file can be partly verified: an ordinary computer runs the tests and leaves the judges ○, and that is a valid state, not an error.
 
+How the Evals section is laid out:
+
+- An eval starts with `- ` at the very start of a line, then the kind, a colon, and its text: `- judge: the reminder makes sense in a single line`. Any other kind is an error.
+- An indented line belongs to the eval above it. Without a code block, indented lines are joined onto the text with single spaces, so a long sentence can wrap.
+- Blank lines are allowed. Any other line that isn't an eval or indented under one is an error.
+- The section needs at least one eval. Evals are numbered from 1 within each kind, in order: the second `judge:` is judge 2.
+- `judge:` and `review:` evals are plain sentences. An arrow in them is just text, and a code block under one is an error.
+
 ## Writing tests
 
 A test is a shell command that passes when it exits with 0. It runs in the folder that holds the file, with the file's path in the `INTENT_FILE` environment variable. Three forms are valid:
 
 - **One line.** The text is the command: `- test: npm run build`
-- **Named.** A readable name, an arrow, then the command: `- test: the site builds → npm run build`. Readers see the name. `->` works too.
-- **Fenced.** A name, with an indented code block underneath that holds the script.
+- **Named.** A readable name, an arrow, then the command: `- test: the site builds → npm run build`. Readers see the name. `->` works too. The arrow needs whitespace on both sides, and the text splits at the first one, so later arrows belong to the command.
+- **Fenced.** A name, with a fenced code block indented underneath it that holds the script. The indented lines are dedented first. Any text lines before the fence are joined onto the name; the lines between the fences are the command.
 
 A `watch:` can use the named or fenced form to measure something; without a command it is a description waiting to be measured.
 
@@ -80,7 +104,19 @@ Recorded verdicts live at the bottom of the file, one per line, matched to evals
 - review 1: ○ pending
 ````
 
-Tests are not usually recorded here, because they run every time. Recording a verdict never needs a new version.
+Each result line has this shape:
+
+````text
+- <kind> <number>: <mark> <date> — <reason>
+````
+
+- `<kind> <number>` names the eval, numbered the same way as in Evals.
+- `<mark>` is `✓`, `✗` or `○`.
+- `<date>` is optional and written `YYYY-MM-DD`. The separator after it is optional too: an em dash, an en dash, a hyphen or a colon.
+- The reason is the rest of the line. Indented lines underneath it are joined onto it with single spaces.
+- Other lines in Results that aren't `- ` items are notes, and tools ignore them.
+
+An eval with no result line, or with `○`, is pending. Tests are not usually recorded here, because they run every time. Recording a verdict never needs a new version.
 
 ## The contract
 
@@ -140,3 +176,6 @@ New users book their first match within 5 minutes of signup.
 - judge 1: ✓ 2026-11-12 — three short steps, no dead ends
 - review 1: ○ pending
 ````
+
+# Results
+- judge 1: ✓ 2026-11-10 — the page now gives the exact rules for line breaks, headings, fences, front-matter keys and quotes, how eval lines wrap and split, and the Results line grammar. A parser built from it handles every file on this site the same way the reference tool does
