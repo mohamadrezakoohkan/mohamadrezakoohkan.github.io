@@ -12,22 +12,16 @@ A reader sees .intent as the middle ground between PDF and Markdown: the goal is
 - review: it says what I actually think
 
 # Fulfillment
-## Every era froze one layer
+## The .intent vision
 
-> **To write:** PDF (1991) froze appearance: it looks the same everywhere, but you can't edit it. Markdown (2004) froze meaning: the text is free, and each renderer decides the look. What did each one give up?
+Every era of digital documents froze one layer. PDF, born from John Warnock’s 1991 vision of “view and print anywhere,” froze appearance: a page looks identical on every machine, but its content is locked and hard to edit. Markdown, created by John Gruber in 2004, froze meaning: the source stays readable as plain text, while each renderer decides how it looks. Neither format captures what matters most in the age of AI agents: what the document is for.
 
-## The middle ground: lock the goal, free the work
+.intent is the next step. It freezes intent. A .intent file combines PDF’s locking with Markdown’s readability, and adds something neither ever had: built-in verification.
 
-> **To write:** PDF locks everything, Markdown locks nothing. .intent locks only the goal. The work can change as much as it likes, as long as it still meets the goal.
+Each file has a simple structure: a name, a version, an optional link to the version it supersedes, a locked goal, evals, and a fulfillment. The goal is one plain sentence stating the expected outcome. The evals are checks an agent runs on demand to verify the work meets the goal. Some are runnable tests with a hard pass or fail; others are plain sentences an AI judges with a written reason. The fulfillment is the actual work, whether text, design, spec, or code, and stays free to edit.
 
-## Evals: what it takes to meet the goal
+The contract is strict. The goal and evals never change within a version. Changing either one requires a new version, which points back to the old one through supersedes, building a traceable history of how the goal evolved. Old evals can be rerun on new work to catch regressions.
 
-> **To write:** Evals are the checks that say whether the work still meets the goal. Some are scripts with a hard pass or fail; others are plain sentences.
+.intent is plain text readable in any editor, but it is its own format, opened and verified by .intent tools. It is aimed at any digital product, not just code.
 
-## Two kinds of computers
-
-> **To write:** An ordinary computer can run the scripts. A computer with an AI assistant can also judge the plain sentences. A file can be partly verified, and that's fine.
-
-## What comes next
-
-> **To write:** The spec is open, this site is the first real user, and every page here is an .intent file. Point readers to the spec and the raw source.
+The goal of publishing is to follow Markdown’s path: an open spec, a small reference tool, real examples, and a launch story. PDF locked appearance, Markdown locked meaning, and .intent locks purpose.
