@@ -1,0 +1,17 @@
+{
+  "name": "@intent/tool",
+  "version": "0.1.0",
+  "description": "Reference parser and verifier for .intent files",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "intent": "./src/cli.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./parse": "./src/parse.ts"
+  },
+  "engines": {
+    "node": ">=22.6"
+  }
+}

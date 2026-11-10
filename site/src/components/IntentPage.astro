@@ -1,0 +1,98 @@
+---
+// Renders one .intent file: the locked goal as the headline, the evals as
+// margin notes, the fulfillment as the body, and the raw source on demand.
+import { STATUS_MARK, type IntentPage } from "../lib/intents";
+import { marked } from "marked";
+import "../styles/site.css";
+
+interface Props {
+  page: IntentPage;
+  title: string;
+}
+
+const { page, title } = Astro.props;
+const { file } = page;
+const canonical = new URL(page.url, Astro.site);
+const beacon = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
+const kindLabel = { test: "test", judge: "judge", review: "review", watch: "watch" };
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={file.goal} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="text/plain" href={page.sourceUrl} title="Raw .intent source" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={file.goal} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={page.url.startsWith("/posts/") ? "article" : "website"} />
+    {beacon && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: beacon })}
+      />
+    )}
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="site-name">mohamadreza.com</a>
+      <nav>
+        <a href="/spec">the .intent spec</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="intent">
+        <p class="meta">
+          <span>{file.name}</span>
+          <span>v{file.version}</span>
+          {file.supersedes && <span>supersedes {file.supersedes}</span>}
+        </p>
+
+        <h1 class:list={["goal", { long: file.goal.length > 80 }]} set:html={page.goalHtml} />
+
+        <p class="hint">
+          This page is an <a href="/spec">.intent file</a>. The headline is its locked goal; the notes
+          <span class="wide-only">beside it</span><span class="narrow-only">below</span> are the evals that
+          check it.
+        </p>
+
+        <aside class="evals" aria-label="Evals">
+          <p class="evals-label">evals</p>
+          <ol>
+            {page.evals.map((v) => (
+              <li class={`eval ${v.status}`}>
+                <span class="mark" aria-label={v.status}>{STATUS_MARK[v.status]}</span>
+                <span class="kind">{kindLabel[v.eval.kind]}</span>
+                <span class="text" set:html={marked.parseInline(v.eval.text, { async: false })} />
+                <span class="why">{v.note}</span>
+              </li>
+            ))}
+          </ol>
+          <p class="legend">✓ pass · ✗ fail · ○ pending<br />only ✗ blocks a deploy</p>
+        </aside>
+
+        <div class="body" set:html={page.bodyHtml} />
+
+        <slot />
+
+        <details class="source">
+          <summary>View source</summary>
+          <pre><code>{file.raw}</code></pre>
+          <p>Raw file: <a href={page.sourceUrl}>{page.sourceUrl}</a></p>
+        </details>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      Every page on this site is an .intent file. <a href={page.sourceUrl}>Read this one raw.</a>
+    </footer>
+  </body>
+</html>

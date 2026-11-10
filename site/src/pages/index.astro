@@ -1,0 +1,22 @@
+---
+import IntentPage from "../components/IntentPage.astro";
+import { getPage, getPosts, summary } from "../lib/intents";
+import { marked } from "marked";
+
+const page = getPage("/");
+const posts = getPosts();
+---
+
+<IntentPage page={page} title="mohamadreza.com">
+  <section class="post-list" aria-label="Posts">
+    <h2>Posts</h2>
+    <ol>
+      {posts.map((post) => (
+        <li>
+          <a href={post.url} set:html={marked.parseInline(post.file.goal, { async: false })} />
+          <span class="post-meta">{post.file.name} · {summary(post)}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+</IntentPage>

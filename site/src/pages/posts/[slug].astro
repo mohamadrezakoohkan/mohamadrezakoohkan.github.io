@@ -1,0 +1,15 @@
+---
+import IntentPage from "../../components/IntentPage.astro";
+import { getPosts, type IntentPage as Page } from "../../lib/intents";
+
+export function getStaticPaths() {
+  return getPosts().map((page) => ({
+    params: { slug: page.url.replace("/posts/", "") },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props as { page: Page };
+---
+
+<IntentPage page={page} title={`${page.file.goal} · mohamadreza.com`} />

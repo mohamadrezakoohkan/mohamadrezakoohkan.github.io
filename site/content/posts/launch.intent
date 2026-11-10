@@ -1,0 +1,33 @@
+---
+name: launch
+version: 1
+---
+
+# Goal
+A reader sees .intent as the middle ground between PDF and Markdown: the goal is locked, and the work stays free as long as it still meets it.
+
+# Evals
+- test: readable in under 5 minutes → [ "$(intent words "$INTENT_FILE")" -le 1100 ]
+- judge: a reader with no context can explain the middle ground in one sentence
+- review: it says what I actually think
+
+# Fulfillment
+## Every era froze one layer
+
+> **To write:** PDF (1991) froze appearance: it looks the same everywhere, but you can't edit it. Markdown (2004) froze meaning: the text is free, and each renderer decides the look. What did each one give up?
+
+## The middle ground: lock the goal, free the work
+
+> **To write:** PDF locks everything, Markdown locks nothing. .intent locks only the goal. The work can change as much as it likes, as long as it still meets the goal.
+
+## Evals: what it takes to meet the goal
+
+> **To write:** Evals are the checks that say whether the work still meets the goal. Some are scripts with a hard pass or fail; others are plain sentences.
+
+## Two kinds of computers
+
+> **To write:** An ordinary computer can run the scripts. A computer with an AI assistant can also judge the plain sentences. A file can be partly verified, and that's fine.
+
+## What comes next
+
+> **To write:** The spec is open, this site is the first real user, and every page here is an .intent file. Point readers to the spec and the raw source.

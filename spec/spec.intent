@@ -1,0 +1,125 @@
+---
+name: spec
+version: 1
+---
+
+# Goal
+Someone who has never seen an .intent file can read, write and verify one using only this page.
+
+# Evals
+- test: every example on this page parses → intent examples "$INTENT_FILE"
+- judge: a developer could write a working parser from this page alone, without guessing
+- review: it describes what I mean by .intent
+
+# Fulfillment
+## The shape of a file
+
+An .intent file is plain UTF-8 text. It has front matter, then three required sections and one optional one, always in this order:
+
+| Section | What it holds | Locked within a version? |
+| --- | --- | --- |
+| `# Goal` | one plain sentence stating the expected outcome | yes |
+| `# Evals` | the checks that say whether the work meets the goal | yes |
+| `# Fulfillment` | the work itself: text, design, spec or code | no |
+| `# Results` | recorded verdicts for evals (optional) | no |
+
+Section headings use a single `#`. Inside Fulfillment, use `##` and below. A `#` line inside a code block is not a heading.
+
+## Front matter
+
+The file starts with `---`, a few `key: value` lines, and a closing `---`.
+
+- `name`, required: lowercase letters, digits, `.`, `_` or `-`.
+- `version`, required: a whole number, 1 or higher.
+- `supersedes`, optional: the version this one replaces, written `name@version`.
+
+Other keys are allowed, and tools ignore keys they don't know.
+
+## Goal
+
+One plain sentence. No lists, no second paragraph. The goal says what the work is *for*, not what it contains.
+
+## Evals
+
+Each eval is a list item that starts with its kind:
+
+| Kind | Who runs it | Blocks when it fails? |
+| --- | --- | --- |
+| `test:` | any computer, as a shell command | yes |
+| `judge:` | an AI-assisted computer, as a plain-sentence instruction | yes |
+| `review:` | a person | yes |
+| `watch:` | measured from the outside world, such as traffic or adoption | never |
+
+A `judge:` eval never names an AI provider or model. Whatever assistant the computer has is the judge.
+
+Every eval has a status: **✓** pass, **✗** fail, or **○** pending. Only ✗ blocks. A file can be partly verified: an ordinary computer runs the tests and leaves the judges ○, and that is a valid state, not an error.
+
+## Writing tests
+
+A test is a shell command that passes when it exits with 0. It runs in the folder that holds the file, with the file's path in the `INTENT_FILE` environment variable. Three forms are valid:
+
+- **One line.** The text is the command: `- test: npm run build`
+- **Named.** A readable name, an arrow, then the command: `- test: the site builds → npm run build`. Readers see the name. `->` works too.
+- **Fenced.** A name, with an indented code block underneath that holds the script.
+
+A `watch:` can use the named or fenced form to measure something; without a command it is a description waiting to be measured.
+
+## Fulfillment
+
+The actual work, written in Markdown. It is free to change at any time, as long as the evals still pass.
+
+## Results
+
+Recorded verdicts live at the bottom of the file, one per line, matched to evals by kind and position:
+
+````text
+- judge 1: ✓ 2026-11-12 — the PDF/Markdown contrast lands in the first paragraph
+- review 1: ○ pending
+````
+
+Tests are not usually recorded here, because they run every time. Recording a verdict never needs a new version.
+
+## The contract
+
+Within a version, the goal and evals never change. To change either one, write a new version: raise `version` by one and set `supersedes` to the old `name@version`. The old version stays readable, so the history shows how the goal evolved, and old evals can be run again on new work to catch regressions.
+
+When an eval fails, the work no longer meets its goal. There are two ways forward: change the fulfillment until it passes, or write a new version with a new goal.
+
+## Not in this spec
+
+- How a tool treats commands in a file from someone it doesn't trust.
+- Which AI assistant runs judges.
+- How a file looks when rendered.
+
+## A complete example
+
+````intent
+---
+name: onboarding
+version: 2
+supersedes: onboarding@1
+---
+
+# Goal
+New users book their first match within 5 minutes of signup.
+
+# Evals
+- test: signup to booking takes under 5 minutes → ./checks/median-signup-to-booking.sh 300
+- test: every screen has a back button
+  ```sh
+  ./checks/screens.sh | grep -v 'back: yes' && exit 1 || exit 0
+  ```
+- judge: the flow feels effortless for a first-time player
+- review: support agrees the copy answers the usual first questions
+- watch: weekly share of new users who book within a day
+
+# Fulfillment
+## Steps
+1. Pick a sport.
+2. Pick a nearby club.
+3. Pick a time and book.
+
+# Results
+- judge 1: ✓ 2026-11-12 — three short steps, no dead ends
+- review 1: ○ pending
+````

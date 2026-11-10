@@ -1,13 +1,17 @@
 {
-  "name": "personal-blog",
+  "name": "mohamadreza-com",
   "type": "module",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "tool",
+    "site"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
-  },
-  "dependencies": {
-    "astro": "^5.7.10"
+    "dev": "npm run dev -w site",
+    "build": "npm run build -w site",
+    "preview": "npm run preview -w site",
+    "verify": "intent verify",
+    "intent": "intent"
   }
 }

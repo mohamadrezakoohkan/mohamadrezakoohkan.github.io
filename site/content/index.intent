@@ -1,0 +1,16 @@
+---
+name: home
+version: 1
+---
+
+# Goal
+Each post finds readers I've never met.
+
+# Evals
+- test: short enough to read in a minute → [ "$(intent words "$INTENT_FILE")" -le 250 ]
+- judge: a stranger landing here can pick a post to read within 10 seconds
+- review: it doesn't read like a template
+- watch: readers arrive from at least 5 sites I never shared on
+
+# Fulfillment
+I write about .intent, file formats, AI agents and building software. Every post works like this page: a locked goal as the headline, evals in the margin, and the work itself free to change as long as the evals still pass. The raw file is always one click away.

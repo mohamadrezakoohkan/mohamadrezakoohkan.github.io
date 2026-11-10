@@ -1,0 +1,8 @@
+---
+import IntentPage from "../components/IntentPage.astro";
+import { getPage } from "../lib/intents";
+
+const page = getPage("/spec");
+---
+
+<IntentPage page={page} title=".intent spec · mohamadreza.com" />
