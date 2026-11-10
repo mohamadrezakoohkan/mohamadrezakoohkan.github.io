@@ -1,6 +1,7 @@
 ---
 name: home
 version: 2
+title: Space for my thoughts
 lock: sha256:c0890e1d283f7d59a4d26d87293a94302310d3eb4dfb965a89c4033379f151b2
 supersedes: home@1
 ---
