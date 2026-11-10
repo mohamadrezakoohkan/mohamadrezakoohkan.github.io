@@ -59,7 +59,7 @@ The syntax is flexible and open to more forms later. All of these are valid:
 - The blog is the home of .intent: spec, launch story and (later) the tool all live on mohamadreza.com.
 - Every page is a .intent file. Readers see its goal, eval results and version.
 - Raw source is always available: a "view source" toggle on the page, and a twin URL (`/posts/launch` and `/posts/launch.intent`).
-- Versions: when a goal or evals change, the page becomes v2 with `supersedes: name@1`. v1 keeps a permanent URL. v2 shows the goal diff and re-runs v1's evals against the new text.
+- Versions: when a goal or evals change, the page becomes v2 with `supersedes: name@1`. v1 keeps a permanent URL. v2 links to it only through the `supersedes` line in its meta; the old goal is not repeated on the page. v2 re-runs v1's evals against the new text.
 - Eval results: tests run in CI on every deploy. Judge and review verdicts are recorded once at publish time in the file's `# Results` section.
 
 ## Homepage

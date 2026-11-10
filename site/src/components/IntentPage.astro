@@ -110,22 +110,6 @@ const kindLabel = { test: "test", judge: "judge", review: "review", watch: "watc
           </p>
         )}
 
-        {page.previous && (
-          <p class="goal-line previous">
-            <span class="goal-label">
-              <a href={page.previous.url}>v{page.previous.version}</a> goal · replaced
-            </span>
-            <span set:html={page.previous.goalHtml} />
-          </p>
-        )}
-
-        <p class="hint">
-          This page is an <a href="/spec">.intent file</a>.
-          {file.title ? "Its goal is locked" : "The headline is its locked goal"}; the notes
-          <span class="wide-only">beside it</span><span class="narrow-only">below</span> are the evals that
-          check it.
-        </p>
-
         <aside class="evals" aria-label="Evals">
           <p class="evals-label">evals</p>
           <ol>

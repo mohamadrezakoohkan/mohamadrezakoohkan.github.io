@@ -87,7 +87,6 @@ a {
 code,
 pre,
 .meta,
-.hint,
 .evals,
 .site-header,
 .site-footer,
@@ -162,15 +161,6 @@ summary {
   line-height: 1.45;
   color: var(--muted);
 }
-.goal-line.previous {
-  border-left-color: var(--rule);
-  text-decoration: line-through;
-  text-decoration-color: var(--pending);
-}
-.goal-line.previous .goal-label {
-  color: var(--muted);
-  text-decoration: none;
-}
 .archived {
   margin: 0 0 1.5rem;
   padding: 0.6rem 0.8rem;
@@ -189,18 +179,6 @@ summary {
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 0.15rem;
-}
-
-.hint {
-  margin: 1rem 0 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--rule);
-  font-size: 0.72rem;
-  line-height: 1.6;
-  color: var(--muted);
-}
-.narrow-only {
-  display: none;
 }
 
 /* Margin notes */
@@ -271,6 +249,9 @@ summary {
 }
 
 /* Fulfillment */
+.body {
+  margin-top: 1.5rem;
+}
 .body h2 {
   font-size: 1.3rem;
   font-weight: 600;
@@ -423,16 +404,5 @@ pre code {
     border-bottom: 1px dashed var(--rule);
     padding: 0 0 1.5rem;
     margin-bottom: 2rem;
-  }
-  .hint {
-    border-bottom: 0;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0;
-  }
-  .wide-only {
-    display: none;
-  }
-  .narrow-only {
-    display: inline;
   }
 }

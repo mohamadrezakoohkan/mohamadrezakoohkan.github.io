@@ -36,7 +36,7 @@ export interface IntentPage {
   bodyHtml: string;
   evals: EvalView[];
   /** The version this one supersedes, if it is published. */
-  previous?: { url: string; version: number; goalHtml: string };
+  previous?: { url: string; version: number };
   /** Set on old versions: where the current version lives. */
   supersededBy?: { url: string; version: number };
 }
@@ -157,10 +157,10 @@ function load(globPath: string, raw: string): IntentPage[] {
   });
   old.forEach((page, i) => {
     const prev = old[i - 1];
-    if (prev) page.previous = { url: prev.url, version: prev.file.version, goalHtml: prev.goalHtml };
+    if (prev) page.previous = { url: prev.url, version: prev.file.version };
   });
   const last = old[old.length - 1];
-  if (last) current.previous = { url: last.url, version: last.file.version, goalHtml: last.goalHtml };
+  if (last) current.previous = { url: last.url, version: last.file.version };
 
   return [current, ...old];
 }
