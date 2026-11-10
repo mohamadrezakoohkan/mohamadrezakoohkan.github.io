@@ -1,0 +1,37 @@
+---
+name: who-checks-the-checker
+version: 1
+title: "Who checks the checker?"
+date: 2026-11-10
+description: "And when does the train stop?"
+lock: sha256:88975b1eb2ab34f7da4181994924540f9c7a0f949b837987132f890a72e67ddf
+---
+
+# Goal
+A reader sees that when AI makes every skill cheap, checking becomes what matters, the chain of checkers has to end outside AI, and the race ends as a human question about what to care about.
+
+# Evals
+- test: readable in under 3 minutes → [ "$(intent words "$INTENT_FILE")" -le 600 ]
+- judge: a reader with no context can explain in one sentence why the chain of checkers has to end outside itself
+- review: it says what I actually think
+
+# Fulfillment
+## Everyone is running
+
+With AI, everyone can improve themselves. Or, put another way, everyone can sell a better service than the person next to them. And every one of those services is available on the internet, to anyone.
+
+So when does this train stop?
+
+Economists have a name for this feeling: the Red Queen effect, after Alice in Wonderland, where you run as fast as you can just to stay in the same place. When everyone gets the same tool, it stops being an advantage and becomes the new floor. Spreadsheets, websites and smartphones all went this way. Email was once an edge; once everyone had it, it was just the cost of being in business. AI is heading the same way.
+
+## The train changes tracks
+
+When skill gets cheap, the train switches tracks toward whatever AI can't copy yet. Trust looked like solid ground, until AI learned to fake it. What's left is the ability to check.
+
+But what if AI could check, too? Then I have to trust the checker, and whoever checks that one, and so on. Who checks the checker?
+
+The chain has to end outside itself: in math, in reality, or in people. AI can do the checking. It can't decide what the checking is for.
+
+## When does the train stop?
+
+The train was built not to stop. It stops mattering when competing on output becomes pointless, and what's left is choosing what to care about, who to spend time with, and what's meaningful. That's less an economic question and more a human one.
