@@ -77,6 +77,9 @@ body {
   padding: 0 16px;
   background: var(--bg);
 }
+main {
+  padding-bottom: 4rem;
+}
 
 a {
   color: var(--accent);
@@ -89,7 +92,6 @@ pre,
 .meta,
 .evals,
 .site-header,
-.site-footer,
 .post-list .post-meta,
 summary {
   font-family: var(--mono);
@@ -111,13 +113,6 @@ summary {
   font-weight: 600;
 }
 .site-header nav a {
-  color: var(--muted);
-}
-.site-footer {
-  border-top: 1px solid var(--rule);
-  margin-top: 4rem;
-  padding: 1.5rem 0 3rem;
-  font-size: 0.75rem;
   color: var(--muted);
 }
 
