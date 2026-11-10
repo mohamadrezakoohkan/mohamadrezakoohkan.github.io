@@ -1,8 +1,8 @@
 ---
 name: mohamadreza-com
-version: 2
-supersedes: mohamadreza-com@1
-lock: sha256:a21e280c203af099d8efce4e46c0c63bee79edc86d06d6544a608cf18068a0c5
+version: 3
+supersedes: mohamadreza-com@2
+lock: sha256:2f4535ca4541517c7c07f7bbb7d0eab24740d26b0709ffaf9c838368dec9760e
 ---
 
 # Goal
@@ -15,7 +15,7 @@ mohamadreza.com launches as the home of .intent, where every page is itself a ve
 - test: CI runs Node 22 or newer → grep -Eq 'node-version: (2[2-9]|[3-9][0-9])' .github/workflows/deploy.yml
 - judge: a stranger landing on the homepage understands within 10 seconds that the page they are reading is itself an .intent file
 - judge: no eval, page or tool option names a specific AI provider or model
-- judge: the launch essay introduces .intent as a research result, so a reader understands it without needing the spec page
+- judge: the launch post shares only the core idea, plainly, and leaves the details open for readers to shape
 - review: the site feels like mine, not a template
 - review: the launch essay says what I actually think, in my own words
 - watch: posts get readers from hosts I never shared them on

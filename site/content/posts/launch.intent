@@ -1,84 +1,60 @@
 ---
 name: launch
-version: 2
-supersedes: launch@1
-title: Lock the goal. Every agent run meets it.
-lock: sha256:c548df8190d1235e61625739ae3e602010551ef92c40708483e20a65ae135635
+version: 3
+supersedes: launch@2
+title: Introducing .intent
+lock: sha256:85d01b6ce5489f22543cf20d1b5a339086676b2dcd33b9cc2823710cecfacefd
 ---
 
 # Goal
-A reader wants to write their own .intent file after reading this.
+Introduce .intent plainly, so a reader understands the four parts and the locking rule, and feels free to shape the rest.
 
 # Evals
-- test: readable in under 5 minutes → [ "$(intent words "$INTENT_FILE")" -le 1100 ]
-- judge: a reader who finishes it could write a small .intent file of their own without opening the spec
-- review: it says what I actually think
+- test: under 600 words, with one example file containing name, goal, evals and fulfillment → [ "$(intent words "$INTENT_FILE")" -le 600 ] && intent examples "$INTENT_FILE"
 
 # Fulfillment
-## Introduction
 
-.intent is a file format for work that an agent carries out. An .intent file says what the work is for, describes the work, and says how to tell whether it succeeded. Any agent can read it and produce a result. Anyone can check that result.
+A file format for what you actually want.
 
-This document describes the format, the problem it is meant to solve, and the approach I have taken. It comes out of research into how we hand work to AI agents, and why so much of that work comes back almost right.
+Agents are getting good at doing the work. What hasn't gotten easier is saying what the work is for. That's what `.intent` is for.
 
-## The problem
+A `.intent` file has four parts:
 
-Today, when we ask an agent to do something, we give it instructions. The agent reads them and produces a result. Run the same instructions again and the result is different: sometimes better, sometimes worse, rarely the same. Give them to a different agent and the difference grows.
+- **Name**: what this is.
+- **Goal**: one sentence about the outcome you want.
+- **Evals**: the results that prove the goal is reached.
+- **Fulfillment**: the steps an agent follows to get there.
 
-The instructions are not the problem. The problem is that nothing in the file says what the result is *for*. That knowledge lives in the head of whoever wrote it. When the instructions are edited, or the agent changes, the purpose drifts, and nobody notices, because nothing was written down to check against.
+An agent reads the fulfillment and runs it. The evals tell it, and you, whether it worked.
 
-## The idea
+The rule that makes it interesting: goal and evals are locked. The fulfillment is free. An agent can rewrite the steps as often as it likes, try another approach, swap tools, or start over, as long as the evals still pass. If you want a different outcome, that's not an edit. That's a new version.
 
-An .intent file has a name, a goal and a fulfillment.
+Here's a tiny one:
 
-- **The goal** is one plain sentence: the outcome the work must reach.
-- **The fulfillment** is the work itself: text, a design, a spec or code. An agent reads it and produces a result for the goal.
-- **The evals** say what a good result looks like. They are how anyone can tell that the result meets the goal.
-
-The goal and its evals are locked. The fulfillment is free. You can rewrite it, shorten it, or hand it to a better agent, and as long as every run still passes the evals, the file still means the same thing. That is the whole idea: lock what the work is for, and let everything else change.
-
-## Philosophy
-
-An .intent file should be readable by a person before it is run by a machine. It is plain text and opens in any editor. Someone who has never heard of the format should be able to read one and understand what it wants.
-
-A goal should fit in one sentence. If it doesn't, it is probably more than one goal.
-
-An eval should be something you would actually check, not a wish.
-
-## Two kinds of computers
-
-Some evals are commands that pass or fail. Any ordinary computer can run them. Others are plain sentences, such as "the flow feels effortless for a first-time player", and only a computer with an AI assistant can judge them, writing down its reason. Some need a person to sign off.
-
-A file doesn't need every kind of computer to be useful. An ordinary computer verifies what it can and marks the rest as pending. That is an honest state, not a failure.
-
-## Versions
-
-Within a version, the goal and evals never change. If the purpose changes, that is a new version, and it points back to the one it replaces. Over time, a file carries the history of how its goal evolved, and the old evals can be run against new work to catch the moment it stopped doing what it used to.
-
-This page is an example. Its first version had a different goal. You can still read it.
-
-## A small example
-
-````intent
+```intent
 ---
-name: weekly-summary
+name: booking-reminder
 version: 1
 ---
-
 # Goal
-Every Monday, the team learns last week's three most important changes in under a minute.
+Players get a reminder two hours before every confirmed booking.
 
 # Evals
-- test: exactly three items → [ "$(grep -c '^- ' summary.md)" -eq 3 ]
-- judge: the three changes are the ones that matter most to users, not just the most recent
-- review: the team lead agrees nothing important is missing
+- test: a booking at 18:00 triggers exactly one reminder at 16:00
+- judge: the reminder makes sense in a single line
 
 # Fulfillment
-Read last week's merged pull requests and release notes. Pick the three changes that affect users most. Write one sentence for each in summary.md, as a list.
-````
+Listen for confirmed bookings. Schedule a push notification two hours before start time.
+```
 
-## What comes next
+Why split it this way? Because it answers a question I keep asking myself: when agents do the work, what is my input still for?
 
-The format is open. The [specification](/spec) is on this site, along with a small reference tool that reads and verifies .intent files. Every page here, including this one, is an .intent file: its goal sits under the title, its evals are in the margin, and its source is one click away.
+My answer so far is two things: deciding which problem is worth solving, and saying precisely what done means. That's the locked part, and it's human. The how belongs to the agent.
 
-If there is work you hand to an agent more than once, try writing it as an .intent file. Start with one sentence: what is it for?
+Writing evals first sounds hard, but for me it turned out to be most of the job. When I sit with a real problem, I can write most of what "done" looks like before anything gets built. Building just sharpens a few edges.
+
+And when an agent passes every eval and I still don't like the result, that isn't the agent's failure. My evals missed something. I fix them and bump the version. Over time the version history becomes a record of what I learned "done" really means.
+
+Some things I'm deliberately leaving open: how evals are written (scripts, rubrics, a person reading it), how the lock works (a hash is one way), what runs the file, and how strict versioning should be. Those depend on your work and your taste. I'd rather keep the core small enough to adopt in an afternoon and let the people using it shape the rest.
+
+If you try it, I'd love to hear what you changed.

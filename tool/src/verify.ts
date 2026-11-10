@@ -69,8 +69,8 @@ export function checkHash(file: IntentFile): LockCheck {
   return { status: "pass", detail: `goal and evals match ${file.lock.slice(0, 19)}…` };
 }
 
-/** The version of the file at a git revision, or undefined if it isn't there. */
-export function committedVersion(path: string, rev = "HEAD"): number | undefined {
+/** The file as it is at a git revision, or undefined if it isn't there. */
+export function committedFile(path: string, rev = "HEAD"): IntentFile | undefined {
   try {
     const top = execFileSync("git", ["rev-parse", "--show-toplevel"], { cwd: dirname(path), encoding: "utf8" }).trim();
     const raw = execFileSync("git", ["show", `${rev}:${relative(top, path)}`], {
@@ -78,7 +78,7 @@ export function committedVersion(path: string, rev = "HEAD"): number | undefined
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
     });
-    return parse(raw).version;
+    return parse(raw);
   } catch {
     return undefined;
   }

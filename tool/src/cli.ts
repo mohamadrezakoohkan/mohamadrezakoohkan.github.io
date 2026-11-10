@@ -3,7 +3,7 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { computeLock, setFrontMatter } from "./lock.ts";
 import { examples, parse, STATUS_SYMBOL, words, type Status } from "./parse.ts";
-import { committedVersion, verify, type Report } from "./verify.ts";
+import { committedFile, verify, type Report } from "./verify.ts";
 
 const HELP = `intent: read and verify .intent files
 
@@ -131,12 +131,15 @@ function main(argv: string[]): number {
             console.log(`${mark("pass")} ${path}: already locked`);
             continue;
           }
-          const published = committedVersion(resolve(path)) === file.version;
+          // A committed version keeps its goal and evals, whether or not the lock line survived editing.
+          const committed = committedFile(resolve(path));
+          const changedSinceCommit =
+            committed?.version === file.version && computeLock(committed) !== hash;
           let updates: Record<string, string> = { lock: hash };
           if (bump) {
             const next = file.version + 1;
             updates = { version: String(next), supersedes: `${file.name}@${file.version}`, lock: hash };
-          } else if (file.lock && published) {
+          } else if (changedSinceCommit) {
             bad++;
             console.log(
               `${mark("fail")} ${path}: v${file.version} is already committed, so its goal and evals can't change. Use --bump to make v${file.version + 1}.`,
