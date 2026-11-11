@@ -91,6 +91,7 @@ Format and spec design, AI agents and workflows, software engineering, personal 
 - Deploy stays GitHub Pages via `.github/workflows/deploy.yml`, adjusted to build the `/site` workspace. Bump Node 20 to 22.
 - Fix `site` in the Astro config to `https://mohamadreza.com`.
 - Readers download almost no JavaScript: a few inline lines for the light/dark switch, plus the analytics script once it's enabled. "View source" works without JavaScript.
+- Posts take reader comments through giscus, stored in this repo's GitHub Discussions (one discussion per post, readers sign in with GitHub). The comment widget loads only when a reader scrolls to the end of a post. Superseded versions don't take comments; they point to the current one.
 - Theme follows the device by default; the header switch overrides it and is remembered in the browser.
 
 ## Launch day
